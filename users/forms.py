@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from users.models import user_profile
+from users.models import UserProfileInfo
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 
@@ -55,5 +55,5 @@ class UserProfileInfoForm(forms.ModelForm):
     program = forms.ChoiceField(required=True, choices=programs)
 
     class Meta():
-        model = user_profile
+        model = UserProfileInfo
         fields = ('batch', 'profile_pic', 'user_type', 'department', 'program')

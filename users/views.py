@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
-    return render(request, '../templates/index.html')
+    return render(request, 'index.html')
 
 def register(request):
 
@@ -54,10 +54,10 @@ def user_login(request):
             else:
                 return HttpResponse('Account Deactivated')
         else:
-            return render(messages.info(request, "Please"))
+            return HttpResponse("Please enter the correct information")
 
     else:
-        return render(request, 'user/login.html')
+        return render(request, 'users/login.html')
 
 @login_required
 def user_logout(request):

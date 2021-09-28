@@ -1,4 +1,9 @@
-
+.menu_links {
+    text-decoration: none;
+    font-size: 18px;
+    font-style: normal;
+    color: rgb(1, 157, 230);
+}
 html {
         box-sizing: border-box;
         --bgColorMenu: #18184e;
@@ -65,7 +70,7 @@ input[type=text], #login > [type=password] {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-input[type=text]:hover, #login > [type=password]:hover {
+input[type=text]:hover, input[type=password]:hover {
     padding: 15px;
     margin: 5px 10px;
     width: 100%;
@@ -76,7 +81,6 @@ input[type=text]:hover, #login > [type=password]:hover {
     color: #000000;
     font-size: medium;
 }
-input
     .all {
         display: flex;
     }
@@ -130,7 +134,7 @@ input
     .menu {
         margin: 0;
         display: flex;
-        top: 20px;
+        top: 93%;
         /* Works well with 100% width  */
         width: 100%;
         float: right;
@@ -169,7 +173,7 @@ input
     }
     
     .menu__item.active {
-        transform: translate3d(0, -.8em, 0);
+        transform: translate3d(0, -.6em, 0);
         font-size: large;
         color: bisque;
     }
@@ -204,11 +208,12 @@ input
     .menu__border {
         left: 0;
         bottom: 99%;
-        width: 30.9em;
+        width: 18.9em;
         height: 2.4em;
         position: absolute;
         clip-path: url(#menu);
         will-change: transform;
+        text-overflow: '...';
         background-color: var(--bgColorMenu);
         transition: transform var(--timeOut, var(--duration));
     }

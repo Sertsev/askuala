@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 
 # Create your models here.
-class user_profile(models.Model):
+class UserProfileInfo(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE)
 
     batch = models.IntegerField(default=1)
