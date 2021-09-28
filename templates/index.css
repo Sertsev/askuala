@@ -1,0 +1,225 @@
+
+html {
+        box-sizing: border-box;
+        --bgColorMenu: #18184e;
+        --duration: .8s;
+    }
+
+    #home {
+        display: block;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 50px;
+        font-style: oblique;
+        color:#ffb457;
+        text-shadow: 2px 2px 4px #000000;
+        width: 100%;
+    }
+    
+    #departmentPage, #programs, #login {
+        display: none;
+        font-family: Arial, Helvetica;
+        font-size: 30px;
+        font-style: oblique;
+        color:#ffb457;
+        text-shadow: 2px 2px 4px #000000;
+        width:100%;
+    }
+    #login, #regist {
+        display: none;
+        font-size: 18px;
+        font-style: normal;
+        color: #080330;
+        width: 300px;
+    }
+    #login > label {
+    padding: 0px;
+    margin: 10px;
+    }
+
+input[type=text], #login > [type=password] {
+    padding: 15px;
+    margin: 5px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid rebeccapurple;
+}
+
+#login > [type=submit] {
+    padding: 15px;
+    margin: 5px 10px;
+    border: 2px solid rebeccapurple;
+    background-color: transparent;
+    color: rebeccapurple;
+    font-size: medium;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#login > [type=submit]:hover {
+    padding: 15px;
+    margin: 5px 10px;
+    border: none;
+    background-color: rebeccapurple;
+    color: white;
+    font-size: medium;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+input[type=text]:hover, #login > [type=password]:hover {
+    padding: 15px;
+    margin: 5px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid var(--bgColorMenu);
+    background-color: rosybrown;
+    color: #000000;
+    font-size: medium;
+}
+input
+    .all {
+        display: flex;
+    }
+
+    .all > div > ul {
+        list-style-type: none;
+        text-align: center;
+    }
+
+    .all > div > ul > li > a {
+        color: rgb(1, 157, 230);
+        border: 1px solid green;
+        padding: 10px 20px;
+        margin: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .all > div > ul > li > a:hover, a:active {
+    background-color: green;
+    color: white;
+}
+
+    .all > div {
+        background-color: #080330;
+        margin: 10px;
+        padding: 50px;
+        height: 40%;
+        border-radius: 75px;
+    }
+    
+    html *,
+    html *::before,
+    html *::after {
+        box-sizing: inherit;
+    }
+    
+    body {
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffb457;
+        -webkit-tap-highlight-color: transparent;
+        transition: background-color var(--duration);
+    }
+    
+    .menu {
+        margin: 0;
+        display: flex;
+        top: 20px;
+        /* Works well with 100% width  */
+        width: 100%;
+        float: right;
+        font-size: 10px;
+        padding: 0 2.85em;
+        position: absolute;
+        background-color: var(--bgColorMenu);
+    }
+    
+    .menu__item {
+        all: unset;
+        flex-grow: 1;
+        z-index: 100;
+        display: flex;
+        color: rgb(98, 221, 252);
+        font-size: 15px;
+        cursor: pointer;
+        position: relative;
+        border-radius: 50%;
+        align-items: center;
+        will-change: transform;
+        justify-content: center;
+        padding: 0.55em 0 0.85em;
+        transition: transform var(--timeOut, var(--duration));
+    }
+    
+    .menu__item::before {
+        content: "";
+        z-index: -1;
+        width: 0;
+        height: 0;
+        border-radius: 90%;
+        position: absolute;
+        transform: scale(0);
+        transition: background-color var(--duration), transform var(--duration);
+    }
+    
+    .menu__item.active {
+        transform: translate3d(0, -.8em, 0);
+        font-size: large;
+        color: bisque;
+    }
+    
+    .menu__item.active::before {
+        transform: scale(1);
+        background-color: var(--bgColorItem);
+    }
+    
+    .icon {
+        width: 2.6em;
+        height: 2.6em;
+        stroke: white;
+        fill: transparent;
+        stroke-width: 1pt;
+        stroke-miterlimit: 10;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 400;
+    }
+    
+    .menu__item.active .icon {
+        animation: strok 1.5s reverse;
+    }
+    
+    @keyframes strok {
+        100% {
+            stroke-dashoffset: 400;
+        }
+    }
+    
+    .menu__border {
+        left: 0;
+        bottom: 99%;
+        width: 30.9em;
+        height: 2.4em;
+        position: absolute;
+        clip-path: url(#menu);
+        will-change: transform;
+        background-color: var(--bgColorMenu);
+        transition: transform var(--timeOut, var(--duration));
+    }
+    
+    .svg-container {
+        width: 0;
+        height: 0;
+    }
+    
+    @media screen and (max-width: 50em) {
+        .menu {
+            font-size: .8em;
+        }
+    }

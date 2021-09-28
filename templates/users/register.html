@@ -1,0 +1,22 @@
+
+{% block content %}
+
+{% if registered %}
+<h1>Congrats</h1>
+
+{% else %}
+<div id="regist">
+<h1>
+    Fill the form:
+</h1>
+<form id="regist" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form }}
+        {{ profile_form }}
+
+<input type="submit" value="Register" class="btn btn-primary btn-black">
+</form>
+</div>
+{% endif %}
+
+{% endblock %}
