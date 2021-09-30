@@ -1,17 +1,110 @@
-{% extends 'index.html' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<form method="POST" id="login" class="active">
-    {% csrf_token %}
-    <label for='username'>Username:</label>
-    <input type="text" name="username" placeholder="Username" class="form-control">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Askuala LMS</title>
+</head>
+<style>
+    {% include "index.css" %}
+</style>
+<body class="flex items-center justify-center w-screen h-screen p-10 space-x-6 bg-gray-300">
 
-    <label for="password">Password:</label>
-    <input type="password" name="password" class="form-control" placeholder="Password">
+    <menu class="menu">
 
-    <input type="submit" value="Login">
-</form>
-{% endblock %}
+        <button id="Home" class="menu__item active" style="--bgColorItem: #ff8c00;">Askuala</button>
+        {% if user.is_authenticated %}
+        <button id="department" class="menu__item" style="--bgColorItem: #f54888;">
+        Dashboard
+    </button>
+
+        <button id="program" class="menu__item" style="--bgColorItem: #4343f5;">
+    Courses
+    </button>
+
+        <button id="createNew" class="menu__item" style="--bgColorItem: #e0b115;"> 
+        Notifications
+    </button>
+
+        <button id="signin" class="menu__item" style="--bgColorItem:#65ddb7;">
+        <a href="{% url 'user_logout' %}" class="menu_links"> Log Out </a>
+    </button>
+        {% else %}
+        <button id="department" class="menu__item" style="--bgColorItem: #f54888;">
+        Departments
+    </button>
+
+        <button id="program" class="menu__item" style="--bgColorItem: #4343f5;">
+    Programs
+    </button>
+
+        <button id="createNew" class="menu__item" style="--bgColorItem: #e0b115;"> 
+        <a href="{% url 'register' %}" class="menu_links">Register</a>
+    </button>
+
+        <button id="signin" class="menu__item" style="--bgColorItem:#65ddb7;">
+        <a href="{% url 'user_login' %}" class="menu_links">Log In</a>
+    </button>
+{% endif %}
+        <div class="menu__border"></div>
+
+    </menu>
+
+    <div class="svg-container">
+        <svg viewBox="0 0 202.9 45.5">
+        <clipPath id="menu" clipPathUnits="objectBoundingBox" transform="scale(0.0049285362247413 0.021978021978022)">
+        <path  d="M6.7,45.5c5.7,0.1,14.1-0.4,23.3-4c5.7-2.3,9.9-5,18.1-10.5c10.7-7.1,11.8-9.2,20.6-14.3c5-2.9,9.2-5.2,15.2-7
+            c7.1-2.1,13.3-2.3,17.6-2.1c4.2-0.2,10.5,0.1,17.6,2.1c6.1,1.8,10.2,4.1,15.2,7c8.8,5,9.9,7.1,20.6,14.3c8.3,5.5,12.4,8.2,18.1,10.5
+            c9.2,3.6,17.6,4.2,23.3,4H6.7z"/>
+        </clipPath>
+    </svg>
+    </div>
+
+    <div class="all">
+
+        <div id="home">
+            Welcome to Askuala
+        </div>
+        {% if user.is_authenticated %}
+
+        <div id="departmentPage">
+            <ul>
+                <li><a href="#"> Grades </a></li>
+                <li><a href="#"> Status </a></li>
+            </ul>
+        </div>
+
+        <div id="programs">
+            <ul>
+                <li><a href="#"> Software Engineering </a></li>
+                <li><a href="#"> Research Methods </a></li>
+            </ul>
+        </div>
+
+        {% else %}
+        <div id="departmentPage">
+            <ul>
+                <li><a href="#"> Computer Science </a></li>
+                <li><a href="#"> Business Administration </a></li>
+            </ul>
+        </div>
+
+        <div id="programs">
+            <ul>
+                <li><a href="#"> Master Science </a></li>
+                <li><a href="#"> Bachelore Degree </a></li>
+            </ul>
+        </div>
+
+        {% endif %}
+    </div>
+
+    {% block content %}
+
+    {% endblock %}
+
     <script>
         "use strict";
 
@@ -103,3 +196,7 @@
             offsetMenuBorder(activeItem, menuBorder);
             menu.style.setProperty("--timeOut", "none");
         });
+    </script>
+</body>
+
+</html>

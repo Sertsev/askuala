@@ -1,0 +1,30 @@
+{% block content %}
+<style>
+{% include 'nav.css' %};
+</style>
+
+    <div class="container">
+        <nav>
+            <img src="" alt="">
+            <ul>
+                <li class="nav-btn hm"><a href="#">Home</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-btn menu1"><a href="#">Dashboard</a></li>
+                <li class="nav-btn menu2"><a href="#">Courses</a></li>
+                <li class="nav-btn menu3"><a href="">Notification</a></li>
+                <li class="nav-btn menu4"><a href="{% url 'user_logout' %}">Log Out</a></li>
+                {% else %}
+                <li class="nav-btn menu1"><a href="#">Programs</a></li>
+                <li class="nav-btn menu2"><a href="#">Departments</a></li>
+                <li class="nav-btn menu3"><a href="{% url 'user_login' %}">Log In</a></li>
+                <li class="nav-btn menu4"><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <img id="img" src="https://i.ibb.co/zQx6qTR/ellipse.png" alt="">
+    </div>
+<script>
+{% include 'nav.js' %}
+</script>
+
+{% endblock %}

@@ -57,7 +57,7 @@ def user_login(request):
             return HttpResponse("Please enter the correct information")
 
     else:
-        return render(request, 'users/login.html')
+        return render(request, 'login.html')
 
 @login_required
 def user_logout(request):
