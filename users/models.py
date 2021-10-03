@@ -1,25 +1,15 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.utils.formats import date_format
+
 
 # Create your models here.
 class UserProfileInfo(models.Model):
+
     user = models.OneToOneField(User, on_delete=CASCADE)
-
-    batch = models.IntegerField(default=1)
-
-    profile_pic = models.ImageField(upload_to='Images', verbose_name="Profile Pictures",blank=True)
-
-    computerScience = 'Computer Science'
-    businessAdmin = 'Business Administration'
     
-    Departments = [
-        (computerScience, 'Computer Science'),
-        (businessAdmin, 'Business Administration')
-    ]
-    
-    department = models.CharField(max_length=50, choices=Departments, default=computerScience)
-
     student = 'Student'
     teacher = 'Teacher'
     registrar = 'Registrar'
@@ -45,6 +35,18 @@ class UserProfileInfo(models.Model):
     ]
 
     program = models.CharField(max_length=10, choices=programs, default=ms)
+
+    computerScience = 'Computer Science'
+    businessAdmin = 'Business Administration'
+    
+    Departments = [
+        (computerScience, 'Computer Science'),
+        (businessAdmin, 'Business Administration')
+    ]
+    
+    department = models.CharField(max_length=50, choices=Departments, default=computerScience)
+
+    profile_pic = models.ImageField(upload_to='Images', verbose_name="Profile Pictures",blank=True)
 
     def __str__(self):
         return self.user.username

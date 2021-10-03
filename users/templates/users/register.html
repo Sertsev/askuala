@@ -1,37 +1,27 @@
 {% extends 'base.html' %}
-<style>
-    {
-        % include './register.css'%
-    }
-
-    ;
-
-    form {
-        position: absolute;
-    }
-</style>
 
 {% block content %}
 
-
 {% include 'nav.html' with register="active" %}
+<section  id="signUp">
+<div>
 {% if registered %}
 <h1>Thank you for registering, We will get back to you shortly!</h1>
 
 {% else %}
 
 <h1>
-    Fill the form:
+    Fill the form to register:
 </h1>
-<form id="regist" method="POST" enctype="multipart/form-data" class="forms">
+<form method="POST" enctype="multipart/form-data" class="forms">
         {% csrf_token %}
         {{ user_form }}
-        {{ profile_form }}
-        
+        {{ profile_form }}        
 
 <input type="submit" value="Register" class="btn btn-primary btn-block">
 </form>
 
 {% endif %}
-
+</div>
+</section>
 {% endblock %}

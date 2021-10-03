@@ -3,3 +3,6 @@
 .env
 changes.txt
 .gitignore
+
+templates/old
+**/test.html

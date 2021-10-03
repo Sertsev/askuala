@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="icon" href="{% static 'img/AskualaFinal.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
     <title>Askuala</title>
 </head>
 <style>
     body {
         background-image: linear-gradient(to bottom, rgba(255,0,0,0) 30%, rgba(25, 0, 255, 0.5));
         width: 100%;
-        height: 100vh;
+        /* font-family: 'Cambay', sans-serif; */
     }
     html,body{
 	margin:0;
@@ -21,12 +25,22 @@
 .large-header {
 	position: relative;
 	width: 100%;
-	overflow: hidden;
+	overflow-y: auto;
+    overflow-x: hidden;
 	background-size: cover;
 	background-position: center center;
 	z-index: 1;
 }
-{% include './login.css' %}
+#demo-canvas {
+    position: fixed;
+    z-index: -1;
+}
+
+.errorlist {
+    color: red;
+    list-style: none;
+}
+
 </style>
 
 <body>
@@ -43,8 +57,6 @@
 <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/EasePack.min.js'></script>
 <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/rAF.js'></script>
 <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/TweenLite.min.js'></script>
-<script>
-{% include 'base.js' %}
-</script>
+<script src="{% static 'js/base.js'%}"></script>
 </body>
 </html>

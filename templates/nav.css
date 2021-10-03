@@ -18,6 +18,9 @@ i {
 .navbar-mainbg{
 	background-color: #1f013b;
 	padding: 0px;
+	position: sticky;
+	width: 100%;
+	z-index: 100;
 }
 #navbarSupportedContent{
 	overflow: hidden;
@@ -35,7 +38,7 @@ i {
 	float: left;
 }
 #navbarSupportedContent ul li a{
-	color: rgb(3, 3, 226));
+	color: rgb(3, 3, 226);
 	text-decoration: none;
 	font-size: 15px;
 	display: block;

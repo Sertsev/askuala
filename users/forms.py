@@ -5,11 +5,19 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 
 class UserForm(UserCreationForm):
-    email = forms.EmailField()
+
+    firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First name'}))
+    middlename = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Middle name'}))
+    lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'example@example.com'}))
+    phonenumber = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Phone Number'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'type': 'password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'type': 'password'}))
 
     class Metal():
         model = User
-        fields = ('username', 'firstname', 'lastname', 'email', 'password1', 'password2', 'phonenumber', 'location', 'dateofbirth')
+        fields = ('username', 'firstname', 'middlename', 'lastname', 'email', 'password1', 'password2', 'phonenumber')
 
         labels = {
             'password1' : 'Password',
@@ -17,8 +25,6 @@ class UserForm(UserCreationForm):
         }
 
 class UserProfileInfoForm(forms.ModelForm):
-
-    batch = forms.DateField(required=True)
 
     student = 'Student'
     teacher = 'Teacher'
@@ -53,7 +59,6 @@ class UserProfileInfoForm(forms.ModelForm):
     ]
 
     program = forms.ChoiceField(required=True, choices=programs)
-
     class Meta():
         model = UserProfileInfo
-        fields = ('batch', 'profile_pic', 'user_type', 'department', 'program')
+        fields = ('profile_pic', 'user_type', 'department', 'program')
