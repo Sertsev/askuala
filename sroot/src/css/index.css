@@ -176,3 +176,28 @@
     }
     }
 /* ends Here */
+
+@media (max-width: 600px) {
+.welcome {
+    font-size: 9vw;
+}
+
+#learn_more button a {
+    padding: 5px 12px;
+    margin: 3px 20px;
+}
+
+#home_description > p{
+    font-size: small;
+    letter-spacing: normal;
+}
+
+#learn_more button a:hover {
+    padding: 5px 12px;
+    margin: 3px 30px;
+    box-shadow: 0 0 1px  rebeccapurple,
+                0 0 5px rebeccapurple,
+                0 0 10px rebeccapurple,
+                0 0 20px rebeccapurple;
+}    
+}

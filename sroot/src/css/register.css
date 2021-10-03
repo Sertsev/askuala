@@ -55,6 +55,7 @@ form {
     padding: 7px;
     border-radius: 10px;
     background-color: rgba(62, 34, 90, 0.356);
+    color: rgb(11, 0, 27);
     border: none;
     border-bottom: 2px solid rebeccapurple;
 }
