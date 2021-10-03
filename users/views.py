@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -39,7 +41,10 @@ def register(request):
         'user_form':user_form,
         'profile_form':profile_form}) 
 
+#number of login attempts limited for fivetimes only
+numberofloginattempts = 5
 def user_login(request):
+    global numberofloginattempts
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -53,10 +58,15 @@ def user_login(request):
             else:
                 return HttpResponse('Account Deactivated')
         else:
-            return HttpResponse("Please enter the correct information")
-
+            if numberofloginattempts == 0:
+                numberofloginattempts = 4
+                return HttpResponseRedirect(reverse('index'))
+            numberofloginattempts -= 1
+            return render(request, 'users/login.html', {
+                                                        'user':user,
+                                                        'numberofloginattempts':numberofloginattempts})
     else:
-        return render(request, 'login.html')
+        return render(request, 'users/login.html')
 
 @login_required
 def user_logout(request):
