@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/preloader.css' %}"> -->
 
     <title>Askuala</title>
 </head>
@@ -32,6 +33,19 @@ html, body {
     position: fixed;
     z-index: -1;
 }
+#preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+    width: 100vw;
+}
+.preloader_container {
+    background-color: rgb(14, 0, 14);
+    height: 100%;
+    position: fixed;
+    z-index: 10;
+}
 
 .errorlist {
     color: red;
@@ -51,6 +65,11 @@ a:hover {
 </style>
 
 <body>
+    <div class="preloader_container">
+        <div id="preloader">
+            <img src="{% static 'img/eyes.gif' %}" style="width: 300px;">
+        </div>
+    </div>
     <div id="large-header" class="large-header">
 
     {% block content %}
@@ -61,6 +80,11 @@ a:hover {
 
     <canvas id="demo-canvas"></canvas>
     </div>
+    <script>
+        $(window).on("load",function(){
+            $("#preloader").fadeOut("slow");
+        });
+    </script>
 <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/EasePack.min.js'></script>
 <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/rAF.js'></script>
 <script src='https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/TweenLite.min.js'></script>

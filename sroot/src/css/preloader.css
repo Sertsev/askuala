@@ -1,0 +1,117 @@
+body {
+    background-color: black;
+}
+#preloader {
+    display: flex;
+    justify-content: center;
+    margin-top: 16%;
+}
+#big_circle {
+    background-color: #7752d5;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0px 2px 9px white;
+    animation-name: bigcircle;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.05s;
+}
+#medium_circle {
+    background-color: #8362d9;
+    height: 33px;
+    width: 33px;
+    border-radius: 50%;
+    margin: 19%;
+    position: absolute;
+    box-shadow: 0px 2px 9px rgb(10, 10, 10, 0.7);
+    animation-name: mediumcircle;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.1s;
+}
+#small_circle {
+    background-color: #9f88d6;
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    margin: 25%;
+    box-shadow: 0px 2px 9px rgb(10, 10, 10, 0.8);
+    animation-name: smallcircle;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.2s;
+}
+
+@keyframes bigcircle {
+    0% {
+        height: 50px;
+        width: 50px;
+    }
+    50% {
+        height: 42px;
+        width: 42px;
+        margin-top: 3%;
+    }
+    100% {
+        height: 50px;
+        width: 50px;
+    }
+    
+}
+
+@keyframes mediumcircle {
+    0% {
+        height: 33px;
+        width: 33px;
+    }
+    50% {
+        height: 27px;
+        width: 27px;
+        margin: 19%;
+    }
+    100% {
+        height: 33px;
+        width: 33px;
+    }
+}
+
+@keyframes smallcircle {
+    0% {
+        height: 17px;
+        width: 17px;
+    }
+    50% {
+        height: 13px;
+        width: 13px;
+        margin: 25%;
+    }
+    100% {
+        height: 17px;
+        width: 17px;
+    }
+}
+
+@media (max-width: 550px) {
+    #preloader {
+        margin-top: 50%;
+    }
+}
+@media (min-width: 551px) {
+    #preloader {
+        margin-top: 35%;
+    }
+    
+}
+@media (min-width: 851px) {
+    #preloader {
+        margin-top: 25%;
+    }
+    
+}
+@media (min-width: 951px) {
+    #preloader {
+        margin-top: 16%;
+    } 
+}

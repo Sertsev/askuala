@@ -16,57 +16,70 @@ def register(request):
 
     registered = False
 
-    if request.method == "POST":
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileInfoForm(data=request.POST)
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            user_form = UserForm(data=request.POST)
+            profile_form = UserProfileInfoForm(data=request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.save()
+            if user_form.is_valid() and profile_form.is_valid():
+                user = user_form.save()
+                user.save()
 
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
 
-            registered = True
+                registered = True
+            else:
+                print(user_form.errors, profile_form.errors)
         else:
-            print(user_form.errors, profile_form.errors)
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileInfoForm()
+            user_form = UserForm()
+            profile_form = UserProfileInfoForm()
 
-    return render(request, 'users/register.html',
-    {
-        'registered':registered,
-        'user_form':user_form,
-        'profile_form':profile_form}) 
+        return render(request, 'users/register.html',
+        {
+            'registered':registered,
+            'user_form':user_form,
+            'profile_form':profile_form}) 
+    else:
+        return render(request, 'oops.html', {
+            'error': 404,
+            'message': "You are already logged in!",
+        })
 
 #number of login attempts limited for fivetimes only
 numberofloginattempts = 5
 def user_login(request):
     global numberofloginattempts
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)
+            
 
-        if user:
-            if user.is_active:
-                login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+            if user:
+                if user.is_active:
+                    login(request,user)
+                    return HttpResponseRedirect(reverse('index'))
+                else:
+                    return HttpResponse('Account Deactivated')
             else:
-                return HttpResponse('Account Deactivated')
+                if numberofloginattempts == 0:
+                    numberofloginattempts = 4
+                    return HttpResponseRedirect(reverse('index'))
+                numberofloginattempts -= 1
+                return render(request, 'users/login.html', {
+                                                            'user':user,
+                                                            'numberofloginattempts':numberofloginattempts})
         else:
-            if numberofloginattempts == 0:
-                numberofloginattempts = 4
-                return HttpResponseRedirect(reverse('index'))
-            numberofloginattempts -= 1
-            return render(request, 'users/login.html', {
-                                                        'user':user,
-                                                        'numberofloginattempts':numberofloginattempts})
+            return render(request, 'users/login.html')
     else:
-        return render(request, 'users/login.html')
+        return render(request, 'oops.html', {
+            'error': "404",
+            'message': "You are already logged in!",
+        })
 
 @login_required
 def user_logout(request):

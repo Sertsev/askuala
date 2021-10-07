@@ -1,0 +1,26 @@
+[33m11c8630[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31mheroku/main[m[33m)[m HEAD@{0}: commit: limitted login attempts, and user privilage
+[33m6b0efd0[m HEAD@{1}: commit: added responsivenes to the homepage elements
+[33m2aed52b[m HEAD@{2}: commit: Addeda welcome to the homepage, customized login and register form,
+[33mcb47cbb[m HEAD@{3}: commit: fixing image problem at heroku
+[33m9f4f89c[m HEAD@{4}: commit: fixing image problem at heroku
+[33me1c0842[m HEAD@{5}: commit: hiding secret key
+[33m94b5bf2[m HEAD@{6}: commit: hiding secret key
+[33mf31cb81[m HEAD@{7}: commit: hiding secret key
+[33m1b79c53[m HEAD@{8}: commit: hiding secret key
+[33m117b3b2[m HEAD@{9}: commit: hiding secret key
+[33md97f5bc[m HEAD@{10}: commit: hiding secret key
+[33mcfeb161[m HEAD@{11}: commit: hiding secret key
+[33ma242dce[m HEAD@{12}: commit: hiding secret key
+[33mf67c050[m HEAD@{13}: commit: hiding secret key
+[33m2370a31[m HEAD@{14}: commit: hiding secret key
+[33m507d625[m HEAD@{15}: commit: hiding secret key
+[33m86bc732[m HEAD@{16}: commit: A lot of modification, hard to list simply restarting the project and designed the login and base of the project
+[33md2ca49b[m HEAD@{17}: commit: A lot of modification, hard to list simply restarting the project and designed the login and base of the project
+[33mfa44bb8[m HEAD@{18}: commit: fixed the login now it works, changed the menu bar to bottom
+[33m0a8f3d1[m HEAD@{19}: commit: added allowed hosts
+[33mbcd8373[m HEAD@{20}: commit: added proc file and requirements
+[33m9c00fd6[m HEAD@{21}: commit: added proc file and requirements
+[33m27dcbba[m HEAD@{22}: commit: added proc file and requirements
+[33meac7ff1[m HEAD@{23}: pull: Fast-forward
+[33m1fe6053[m HEAD@{24}: checkout: moving from master to main
+[33m1fe6053[m HEAD@{25}: commit (initial): Askuala project

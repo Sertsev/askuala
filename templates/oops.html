@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'nav.html' %}
+    <div style="display: flex; justify-content: center; align-items: center; height: 88vh;">
+        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+            <div>
+                <img src="{% static 'img/AskualaFinal.png' %}" width="300px">
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+                <h1 style="font-size: 1000%; padding-top: 15px;">OOPS</h1>
+                <p style="text-align: center; 
+                            font-size: large;
+                            padding: 15px;
+                            padding-top: -20px;
+                            margin: 10px;
+                            margin-top: -20px;
+                            width: 90%;
+                            color: aliceblue;
+                            background-color: rgb(13, 5, 20);
+                            "> {{ error }}: {{ message }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
