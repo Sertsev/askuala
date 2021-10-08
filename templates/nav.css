@@ -15,6 +15,17 @@ i {
 	padding: 15px;
 	color: #fff;
 }
+
+#hidden-drop {
+	display: none;
+}
+
+.dropdown:focus #hidden-drop{
+	display: flex;
+	width: 100px;
+	flex-direction: column;
+	justify-content: center;
+}
 .navbar-mainbg{
 	background-color: #150129;
 	padding: 0px;

@@ -1,0 +1,270 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: roboto;
+}
+.app-icons{
+    color: #000;
+    margin-right: 20px;
+    font-size: 30px;
+    display: none;
+}
+#askuala-img{
+    margin: 10px;
+}
+
+.main{
+    margin-left: 40px;
+    height: 150vh;
+    padding: 16px;
+    padding-top: 86px;
+}
+.top-nav{
+    background: #f5f5f5;
+    justify-content: center;
+    padding-top: 10px;
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    box-shadow: 0 0 10px;
+}
+.right-nav{
+    position: fixed;
+    height: 100%;
+    width: 40px;
+    top: 0;
+    right: 0;
+    background: #f5f5f5;
+    padding: 10px;
+    padding-top: 80px;
+}
+.right-bar-icon{
+    font-size: 20px;
+    color: grey;
+    margin-bottom: 25px;
+    
+}
+form > sear{
+    width: 80%;
+    margin-right: 10px;
+}
+.vertical-line{
+    height: 50px;
+    width: 1px;
+    margin: 0 20px;
+    background: lightgrey;
+}
+
+.user-info{
+    display: flex;  
+}
+.user-icon{
+    margin-right: 10px;
+    font-size: 30px;
+    color: grey;
+}
+#user-name{
+    text-transform: capitalize;
+    font-weight: normal;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+#time{
+    padding: 10px;
+    margin: 0 10px;
+    color: rebeccapurple;
+    text-shadow: 0 0 125px blue, 0 0 35px darkblue;
+}
+
+input[type=text] {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    color: hsl(60, 7%, 35%);
+    background-color: hsl(60, 7%, 90%);
+    background-image: url("../img/search.svg");
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+}
+
+input[type=text]:focus {
+    outline: 0.5px solid hsl(270, 50%, 40%);
+}
+.three-dots{
+    font-size: 20px;
+    padding: 10px;
+    margin: 0 10px;
+}
+.info-drop-container{
+    overflow: hidden;
+    transition: 1s;
+    width: 240px;
+    position: absolute;
+    background-color: beige;
+
+}
+
+.info-drop-ul li{
+    margin-bottom: 10px;
+
+}
+.info-drop-ul li a{
+    text-transform: capitalize;
+    text-decoration: none;
+    color: grey;
+    transition: 0.5s;
+}
+.info-drop-ul li a:hover{
+    color: hsl(270, 50%, 10%);
+}
+.ul-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 100%;
+    background: hsl(270, 50%, 40%);
+    list-style-type: none;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: 0.6s;
+    z-index: 2;
+}
+.ul-container:hover{
+    width: 305px;
+    overflow-y: auto;
+}
+.ul-container > li{
+    padding: 10px;
+    margin-bottom: 5px;
+    text-align: left;
+
+}
+.ul-container > li:hover,
+.ul-container > li:focus{
+    cursor: pointer;
+    transition: 0.5s;
+    background: hsl(270, 50%, 10%);
+}
+.ul-container > li a{
+
+    color: #fff;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+.icons{
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    margin-right: 30px;
+}
+.my-profile{
+    display: none;
+}
+.drop-down-icon{
+    margin-left: 8px;
+    transition: 0.7s;
+    color: #fff;
+    font-size: 15px;
+}
+.links-container{
+    height: 0;
+    overflow: hidden;
+    transition: 1s;
+}
+.drop-lists{
+    list-style-type: none;
+    color: #fff;
+    
+    font-weight: lighter;
+    text-transform: capitalize;
+}
+.drop-lists li{
+    margin-top: 5px;
+    padding: 10px;
+    padding-left: 45px;
+
+}
+.drop-lists li:hover{
+    background: hsl(270, 50%, 60%);
+}
+.fa-angle-up{
+    display:none;
+}
+.social-media{
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    list-style-type: none;
+    
+}
+.social-icons{
+    
+    margin-bottom: 5px;
+}
+.social-icons .fab{
+    color: grey;
+    font-size: 20px;
+}
+.img-cont{
+    display: flex;
+}
+
+@media (max-width: 768px){
+.icons, .vertical-line,.info-drop,.right-nav, .current-time{
+        display: none;
+    }
+    .main, .top-nav{
+        margin-left: 0;
+    }
+    .ul-container{
+        width: 0;
+        /* position: relative; */
+    }
+    form > sear{
+        flex-basis: 150%;
+    }
+    
+    #user-name{
+        font-size: 15px;
+    }
+    .user-icon{
+        font-size: 20px;
+    }
+    .app-icons{
+        display: block;
+    }
+    #askuala-img{
+        margin-top: 35px;
+        width: 230px;
+        height: 78px;
+    }
+    .top-nav{
+        display: flex;
+        justify-content: space-between;
+    }
+    .fa-times{
+        top: 5px;
+        right: 5px;
+        position: absolute;
+        color: #fff;
+        font-size: 20px;
+        margin-right:  0;
+    }
+    .my-profile{
+        display: block;
+    }
+    .links-container{
+        background: hsl(270, 50%, 10%);
+    }
+
+}

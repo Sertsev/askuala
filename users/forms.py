@@ -6,18 +6,14 @@ from django.contrib.auth.forms import UserChangeForm
 
 class UserForm(UserCreationForm):
 
-    firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First name'}))
-    middlename = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Middle name'}))
-    lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'example@example.com'}))
-    phonenumber = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Phone Number'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'type': 'password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'type': 'password'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'example@example.com'}))
 
     class Metal():
         model = User
-        fields = ('username', 'firstname', 'middlename', 'lastname', 'email', 'password1', 'password2', 'phonenumber')
+        fields = ('username', 'email', 'password1', 'password2')
 
         labels = {
             'password1' : 'Password',
@@ -25,6 +21,10 @@ class UserForm(UserCreationForm):
         }
 
 class UserProfileInfoForm(forms.ModelForm):
+    firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First name'}))
+    middlename = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Middle name'}))
+    lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+    phonenumber = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Phone Number'}))
 
     student = 'Student'
     teacher = 'Teacher'
@@ -59,6 +59,15 @@ class UserProfileInfoForm(forms.ModelForm):
     ]
 
     program = forms.ChoiceField(required=True, choices=programs)
+
     class Meta():
         model = UserProfileInfo
-        fields = ('profile_pic', 'user_type', 'department', 'program')
+        fields = (  'firstname',
+                    'middlename',
+                    'lastname',
+                    'phonenumber',
+                    'user_type',
+                    'program',
+                    'department',
+                    'profile_pic')
+

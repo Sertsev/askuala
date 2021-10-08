@@ -14,8 +14,15 @@ def path_and_rename(instance, filename):
 
 # Create your models here.
 class UserProfileInfo(models.Model):
-
     user = models.OneToOneField(User, on_delete=CASCADE)
+    firstname = models.CharField(max_length=64)
+    middlename = models.CharField(max_length=64)
+    lastname = models.CharField(max_length=64)
+    email = models.EmailField(max_length=64)
+    phonenumber = models.CharField(max_length=32)
+    # username = models.CharField(max_length=64)
+    # password1 = models.CharField(max_length=128)
+    # password2 = models.CharField(max_length=128)
 
     profile_pic = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures",blank=True)
 

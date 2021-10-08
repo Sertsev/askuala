@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'nav.html' with dash="active" %}
+<section class="container">
+    <div class="student_table">
+        <table class="students">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Program</th>
+                <th>Department</th>
+            </tr>
+            {% for usr in all %}
+            <tr>
+                <td>{{ usr.user_id }}</td>
+                <td>{{ usr.firstname }}</td>
+                <td>{{ usr.middlename }}</td>
+                <td>{{ usr.lastname }}</td>
+                <td>{{ usr.email }}</td>
+                <td>{{ usr.phonenumber }}</td>
+                <td>{{ usr.program }}</td>
+                <td>{{ usr.department }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+
+<section id="programs">
+    
+</section>
+{% endblock %}
