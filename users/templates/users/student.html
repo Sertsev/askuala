@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'nav.html' with student="active" %}
+<section class="tablecontainer">
+    <div class="student_table">
+        <h1>All Students List</h1>
+        <input type="search" name="searchTeachers" placeholder="search Teachers">
+        <a>
+            <button class="mybutton"> Add Student </button>
+        </a>
+        <table class="students">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Program</th>
+                <th>Department</th>
+                <th>Disable Account</th>
+                <th>Verified</th>
+            </tr>
+            {% for usr in all %}
+            {% if usr.user_type == 'Student'%}
+            <tr>
+                <td>{{ usr.user.username }}</td>
+                <td>{{ usr.firstname }}</td>
+                <td>{{ usr.middlename }}</td>
+                <td>{{ usr.lastname }}</td>
+                <td>{{ usr.email }}</td>
+                <td>{{ usr.phonenumber }}</td>
+                <td>{{ usr.program }}</td>
+                <td>{{ usr.department }}</td>
+                <td>
+                    <a>
+                        <button> Disable </button>
+                    </a>
+                </td>
+                <td></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</section>
+
+<section id="programs">
+    
+</section>
+{% endblock %}

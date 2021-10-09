@@ -14,7 +14,10 @@ body{
 }
 #askuala-img{
     margin: 10px;
+    /* display: block; Trying to print two images as hovering and not
+    background: url(../img/AskualaFinal.svg) no-repeat; */
 }
+
 
 .main{
     margin-left: 40px;
@@ -49,9 +52,9 @@ body{
     margin-bottom: 25px;
     
 }
-form > sear{
-    width: 80%;
-    margin-right: 10px;
+#sear{
+    width: 64%;
+    margin-left: 3%;
 }
 .vertical-line{
     height: 50px;
@@ -70,9 +73,12 @@ form > sear{
 }
 #user-name{
     text-transform: capitalize;
-    font-weight: normal;
+    font-weight: 100;
+    justify-content: center;
     padding: 10px;
     margin: 0 10px;
+    color: rebeccapurple;
+    text-shadow: 0 0 125px blue, 0 0 35px darkblue;
 }
 
 #time{
@@ -107,15 +113,21 @@ input[type=text]:focus {
 .info-drop-container{
     overflow: hidden;
     transition: 1s;
-    width: 240px;
+    width: 235px;
     position: absolute;
     background-color: beige;
-
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-left: -15%;
+    display: none;
+}
+.info-drop-ul{
+    list-style-type: none;
 }
 
 .info-drop-ul li{
     margin-bottom: 10px;
-
+    text-decoration: none;
 }
 .info-drop-ul li a{
     text-transform: capitalize;
@@ -130,10 +142,9 @@ input[type=text]:focus {
     position: fixed;
     top: 0;
     left: 0;
-    width: 40px;
+    width: 50px;
     height: 100%;
     background: hsl(270, 50%, 40%);
-    list-style-type: none;
     overflow: hidden;
     white-space: nowrap;
     transition: 0.6s;
@@ -143,6 +154,12 @@ input[type=text]:focus {
     width: 305px;
     overflow-y: auto;
 }
+
+.ul-container hr {
+    margin: 22px 0px 20px;
+    border: 1.5px solid azure;
+}
+
 .ul-container > li{
     padding: 10px;
     margin-bottom: 5px;
@@ -184,7 +201,6 @@ input[type=text]:focus {
 .drop-lists{
     list-style-type: none;
     color: #fff;
-    
     font-weight: lighter;
     text-transform: capitalize;
 }
@@ -192,7 +208,6 @@ input[type=text]:focus {
     margin-top: 5px;
     padding: 10px;
     padding-left: 45px;
-
 }
 .drop-lists li:hover{
     background: hsl(270, 50%, 60%);
@@ -208,7 +223,6 @@ input[type=text]:focus {
     
 }
 .social-icons{
-    
     margin-bottom: 5px;
 }
 .social-icons .fab{
@@ -219,7 +233,7 @@ input[type=text]:focus {
     display: flex;
 }
 
-@media (max-width: 768px){
+@media (max-width: 968px){
 .icons, .vertical-line,.info-drop,.right-nav, .current-time{
         display: none;
     }
@@ -266,5 +280,4 @@ input[type=text]:focus {
     .links-container{
         background: hsl(270, 50%, 10%);
     }
-
 }

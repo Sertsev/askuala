@@ -45,14 +45,20 @@
                 {% elif user.is_authenticated and cuser.user_type == 'Registrar' %}
 
                 <li class="nav-item">
-                    <a class="nav-link {{ dash }}" href="{% url 'student' %}"><i class="fas fa-user-alt"></i>Student</a>
+                    <a class="nav-link {{ controller }}" href="{% url 'controller' %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-file"></i>Courses</a>
+                    <a class="nav-link" href="#"><i class="far fa-file"></i>Courses</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-chalkboard"></i>Teachers</a>
+                    <a class="nav-link {{ teacher }}" href="{% url 'teacher' %}"><i class="far fa-user"></i>Teachers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ student }}" href="{% url 'student' %}"><i class="fas fa-user-graduate"></i>Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ guest }}" href="{% url 'guest' %}"><i class="fas fa-user-astronaut"></i>Guests</a>
                 </li>
                 <li class="nav-item">
                     <a class="dropdown {{ login }}" href="#"><i class="far fa-user-circle"></i>{{ cuser.firstname }}</a>

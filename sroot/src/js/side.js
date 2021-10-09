@@ -51,18 +51,24 @@ threeDotsBtn.addEventListener('click', function(){
     const infoUlHeight = infoUl.getBoundingClientRect().height
     console.log(infoUlHeight)
     if(infoContHeight == 0){
-        infoDropCont.style.height = `${infoUlHeight}px`
-        // infoDropCont.style.display = 'block'
+        infoDropCont.style.height = `140px`
+        infoDropCont.style.display = 'block'
     }
     else{
-        infoDropCont.style.height ='0'
-        // infoDropCont.style.display = 'none'
+        infoDropCont.style.height ='0px'
+        infoDropCont.style.display = 'none'
     }
 })
 
 liBtn.forEach(function(btn){
     btn.addEventListener('click' ,function(e){
         const styles = e.currentTarget.classList
+        linkCont.forEach(function(cont){
+            cont.style.height = '0'
+        })
+        dropDnBtn.forEach(function(bbtn){
+            bbtn.style.transform = 'rotate(0deg)'
+        })
         if(styles.contains('crs')){
                 if(linkCont[0].getBoundingClientRect().height === 0){
                         linkCont[0].style.height = `${miniLinksCont[0].getBoundingClientRect().height}px`
@@ -132,7 +138,7 @@ liBtn.forEach(function(btn){
     })
 })
 function showMenu(){
-    ulCont.style.width = '290px'
+    ulCont.style.width = '250px'
 }
 function hideMenu(){
     ulCont.style.width = '0'

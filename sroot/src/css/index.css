@@ -27,16 +27,16 @@
     color: rgb(45, 23, 68);
 }
 
-#learn_more {
+.learn_more {
     margin-top: 3%;
 }
 
-#learn_more button {
+.learn_more button {
     background-color: transparent;
     border: none;
 }
 
-#learn_more button a {
+.learn_more button a {
     text-decoration: none;
     padding: 15px 35px;
     min-width: 100px;
@@ -49,7 +49,7 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-#learn_more button a:hover {
+.learn_more button a:hover {
     padding: 15px 35px;
     margin: 15px 100px;
     min-width: 105px;
@@ -195,7 +195,7 @@
     font-size: 9vw;
 }
 
-#learn_more button a {
+.learn_more button a {
     padding: 5px 12px;
     margin: 3px 20px;
 }
@@ -205,7 +205,7 @@
     letter-spacing: normal;
 }
 
-#learn_more button a:hover {
+.learn_more button a:hover {
     padding: 5px 12px;
     margin: 3px 30px;
     box-shadow: 0 0 1px  rebeccapurple,

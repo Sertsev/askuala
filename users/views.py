@@ -9,9 +9,19 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 
+#number of login attempts limited for fivetimes only
+numberofloginattempts = 5
+
+
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    if not request.user.is_authenticated:
+        return render(request, 'index.html')
+    else:
+        return HttpResponseRedirect(reverse(page))
+
+# To prevent pages overlapping into one another
+page = index
 
 def register(request):
     registered = False
@@ -43,8 +53,6 @@ def register(request):
     else:
         return HttpResponseRedirect(reverse(index))
 
-#number of login attempts limited for fivetimes only
-numberofloginattempts = 5
 def user_login(request):
     global numberofloginattempts
     if not request.user.is_authenticated:
@@ -56,11 +64,18 @@ def user_login(request):
 
             if user:
                 if user.is_active:
-                    cuser = UserProfileInfo.objects.get(user_id=user.id)
+
+                    cuser = UserProfileInfo.objects.get(user_id=user.id) # grabbing the current user data from the database
+                    
+                    global page # global variable to assigne the respective function or page
+                    
                     login(request,user)
+                    
                     if cuser.user_type == 'Student':
+                        page = dashboard
                         return HttpResponseRedirect(reverse(dashboard))
                     elif cuser.user_type == 'Registrar':
+                        page = controller
                         return HttpResponseRedirect(reverse(controller))
                     else:
                         return render(request, 'index.html', {
@@ -83,31 +98,63 @@ def user_login(request):
         return HttpResponseRedirect(reverse(index))
 
 @login_required
+def teacher(request):
+    cuser = UserProfileInfo.objects.get(user_id=request.user.id)
+    alluser = UserProfileInfo.objects.all()
+
+    if request.user.is_authenticated and cuser.user_type == 'Registrar':
+        return render(request, 'users/teacher.html', {
+        'cuser' : cuser,
+        'all' : alluser })
+    else:
+        return HttpResponseRedirect(reverse(page))
+
+@login_required
+def guest(request):
+    cuser = UserProfileInfo.objects.get(user_id=request.user.id)
+    alluser = UserProfileInfo.objects.all()
+
+    if request.user.is_authenticated and cuser.user_type == 'Registrar':
+        return render(request, 'users/guest.html', {
+        'cuser' : cuser,
+        'all' : alluser })
+    else:
+        return HttpResponseRedirect(reverse(page))
+
+@login_required
 def student(request):
     cuser = UserProfileInfo.objects.get(user_id=request.user.id)
-    return render(request, 'index.html', {
-        'cuser':cuser })
+    alluser = UserProfileInfo.objects.all()
+
+    if request.user.is_authenticated and cuser.user_type == 'Registrar':
+        return render(request, 'users/student.html', {
+        'cuser' : cuser,
+        'all' : alluser })
+    else:
+        return HttpResponseRedirect(reverse(page))
+
 
 @login_required
 def controller(request):
     cuser = UserProfileInfo.objects.get(user_id=request.user.id)
     alluser = UserProfileInfo.objects.all()
-    return render(request, 'users/controller.html', {
+
+    if request.user.is_authenticated and cuser.user_type == 'Registrar':
+        return render(request, 'users/controller.html', {
         'cuser' : cuser,
         'all' : alluser })
+    else:
+        return HttpResponseRedirect(reverse(page))
 
 @login_required
 def dashboard(request):
     cuser = UserProfileInfo.objects.get(user_id=request.user.id)
-    if cuser.user_type == 'Student':
+    if request.user.is_authenticated and cuser.user_type == 'Student':
         return render(request, 'users/dashboard.html', {
             'cuser':cuser
         })
     else:
-        return render(request, 'oops.html', {
-            'error': 401,
-            'message': "You are Authorized to access this!",
-        })
+        return HttpResponseRedirect(reverse(page))
 
 
 @login_required

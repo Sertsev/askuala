@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
     <link rel="icon" href="{% static 'img/AskualaFinal.svg' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/side.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/controller.css' %}">
+    
     <title>Askuala</title>
 </head>
 <style>
@@ -53,6 +55,10 @@ html, body {
     list-style: none;
 }
 
+li {
+    list-style-type: none;
+}
+
 a {
     text-decoration: none;
     font-size: large;
@@ -60,8 +66,8 @@ a {
 }
 
 a:hover {
-    text-decoration: none;
     font-weight: bolder;
+    text-decoration: none;
 }
 </style>
 
@@ -83,7 +89,6 @@ a:hover {
 
     <canvas id="demo-canvas"></canvas>
     </div>
-    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
     <script>
         $(window).on("load",function(){
             $("#preloader").fadeOut("slow");
