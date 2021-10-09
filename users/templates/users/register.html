@@ -6,8 +6,11 @@
 <section  id="signUp">
 <div>
 {% if registered %}
-<h1>Thank you for registering, We will get back to you shortly!</h1>
+        <h1>Thank you for registering, We will get back to you shortly!</h1>
 
+        <p style="text-align: right;"><a href="{% url 'index' %}">
+                < Back To Home </a>
+        </p>
 {% else %}
 
 <h1>

@@ -39,6 +39,7 @@ def register(request):
                 profile.save()
 
                 registered = True
+                return 
             else:
                 print(user_form.errors, profile_form.errors) #user_form.errors, 
         else:
