@@ -20,6 +20,7 @@ i {
 	display: none;
 }
 
+
 .dropdown:focus #hidden-drop{
 	display: flex;
 	width: 100px;
@@ -29,7 +30,7 @@ i {
 .navbar-mainbg{
 	background-color: #150129;
 	padding: 0px;
-	position: sticky;
+	position: fixed;
 	width: 100%;
 	z-index: 100;
 }

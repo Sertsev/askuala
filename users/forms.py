@@ -1,3 +1,4 @@
+from typing import DefaultDict
 from django import forms
 from django.contrib.auth.models import User
 from users.models import UserProfileInfo
@@ -37,28 +38,32 @@ class UserProfileInfoForm(forms.ModelForm):
 
     user_type = forms.ChoiceField(required=True, choices=user_types)
 
+    empty = ''
     computerScience = 'Computer Science'
     businessAdmin = 'Business Administration'
     
     Departments = [
+        (empty, ''),
         (computerScience, 'Computer Science'),
         (businessAdmin, 'Business Administration')
     ]
 
-    department = forms.ChoiceField(required=True, choices=Departments)
+    department = forms.ChoiceField(choices=Departments)
 
     bsc = 'BSc'
     ba = 'BA'
     ms = 'MS'
     ma = 'MBA'
+    empty = ''
     programs = [
+        (empty, ''),
         (bsc, 'BSc'),
         (ba, 'BA'),
         (ms, 'MS'),
         (ma, 'MBA'),
     ]
 
-    program = forms.ChoiceField(required=True, choices=programs)
+    program = forms.ChoiceField(choices=programs)
 
     class Meta():
         model = UserProfileInfo

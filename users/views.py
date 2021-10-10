@@ -39,7 +39,7 @@ def register(request):
                 profile.save()
 
                 registered = True
-                return 
+
             else:
                 print(user_form.errors, profile_form.errors) #user_form.errors, 
         else:
@@ -162,3 +162,10 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+@login_required
+def deactivate(request, cuser, duser):
+    if cuser.user_type == 'Registrar':
+        if duser.user_type != 'Registrar':
+            duser.is_active = False
+            return HttpResponse("Deactivated Successefully")

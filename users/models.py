@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.db.models.fields import BLANK_CHOICE_DASH, NullBooleanField
 from django.utils.formats import date_format
 import os
 
@@ -24,12 +25,13 @@ class UserProfileInfo(models.Model):
     # password1 = models.CharField(max_length=128)
     # password2 = models.CharField(max_length=128)
 
-    profile_pic = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures",blank=True)
+    profile_pic = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
 
     student = 'Student'
     teacher = 'Teacher'
     registrar = 'Registrar'
     guest = 'Guest'
+
     user_types = [
         (student, 'Student'),
         (teacher, 'Teacher'),
@@ -37,7 +39,7 @@ class UserProfileInfo(models.Model):
         (guest, 'Guest')
     ]
 
-    user_type = models.CharField(max_length=15, choices=user_types, default=student)
+    user_type = models.CharField(max_length=15, choices=user_types, default=BLANK_CHOICE_DASH)
 
     bsc = 'BSc'
     ba = 'BA'
@@ -50,7 +52,7 @@ class UserProfileInfo(models.Model):
         (ma, 'MBA'),
     ]
 
-    program = models.CharField(max_length=10, choices=programs, default=ms)
+    program = models.CharField(max_length=10, choices=programs, blank=True)
 
     computerScience = 'Computer Science'
     businessAdmin = 'Business Administration'
@@ -60,7 +62,7 @@ class UserProfileInfo(models.Model):
         (businessAdmin, 'Business Administration')
     ]
     
-    department = models.CharField(max_length=50, choices=Departments, default=computerScience)
+    department = models.CharField(max_length=50, choices=Departments, blank=True)
 
     def __str__(self):
         return self.user.username
