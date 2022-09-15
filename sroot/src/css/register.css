@@ -1,0 +1,102 @@
+#signUp {
+    display: flex;
+    justify-content: center;
+    width: inherit;
+    position: absolute;
+    padding: 50px;
+    overflow-y: hidden;
+}
+
+#signUp > div {
+    width: 600px;
+    padding: 50px;
+    background-color: rgba(40, 113, 204, 0.3);
+    border-radius: 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#signUp form > label {
+    font-size: large;
+    color: transparent;
+}
+
+#signUp form > label[for="id_profile_pic"] {
+    margin-top: 15px;
+    font-size: large;
+    color: #2871CC;
+}
+
+#signUp form .helptext {
+    display: none;
+}
+
+#signUp form > input[type=submit] {
+    font-size: large;
+    padding: 10px;
+    margin-top: 60px;
+    text-transform: uppercase;
+    border-radius: 10px;
+    border: 2px solid #2871CC;
+    background-color: transparent;
+    color: #2871CC;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#signUp form > input[type="text"],  
+#signUp form > input[type="email"], 
+#signUp form > input[type="password"] {
+    font-size: large;
+    padding: 7px;
+    border-radius: 10px;
+    background-color: aliceblue;
+    color: rgb(11, 0, 27);
+    border: none;
+    border-bottom: 2px solid #03578E;
+}
+
+#signUp form > input[type="text"]:focus,  
+#signUp form > input[type="email"]:focus, 
+#signUp form > input[type="password"]:focus,
+#signUp form > input[type="text"]:hover,  
+#signUp form > input[type="email"]:hover, 
+#signUp form > input[type="password"]:hover {
+    font-size: large;
+    padding: 7px;
+    border-radius: 10px;
+    /* background-color: rgb(18, 2, 34); */
+    box-shadow: 10px 0px 90px 10px rgb(0, 03, 07) inset;
+    color: white;
+    border: none;
+    border-bottom: 2px solid #03578E;
+}
+
+#signUp form > input[type=submit]:hover {
+    font-size: large;
+    padding: 7px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    margin-top: 60px;
+    background-color: #2871CC;
+    color: white;
+    box-shadow: 0 0 5px  #2871CC,
+                0 0 25px #2871CC,
+                0 0 50px #2871CC,
+                0 0 200px #2871CC;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#signUp form > select {
+    font-size: medium;
+    padding: 10px;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid #2871CC;
+}
+

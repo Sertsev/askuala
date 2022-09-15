@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'nav.html' with dash="" login="active" %}
+
+<section id="login">
+    <div>
+        {% if numberofloginattempts == 0 %}
+
+        <h3 style="color: red;"> Sorry, You have finished your number of login attempts. </h3>
+
+        <p style="text-align: center; font-size: medium;">Please Try Again Later </p>
+        <br>
+        <p style="text-align: right;"><a href="{% url 'index' %}">
+                < Back To Home </a>
+        </p>
+
+        <p style="text-align: right;"><a href="{% url 'register' %}">
+                Or Register </a>
+        </p>
+
+        {% elif not user %}
+        
+        <h1>Welcome Back!</h1>
+
+        <p style="color: red; text-align: center;">please enter a valid email and password</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label for='username'>Username:</label>
+            <input type="text" name="username" placeholder="Username" class="form-control">
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="form-control" placeholder="Password">
+
+            <input type="submit" value="Login">
+        </form>
+        
+        {% else %}
+        
+        <h1>Welcome Back!</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label for='username'>Username:</label>
+            <input type="text" name="username" placeholder="Username" class="form-control">
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="form-control" placeholder="Password">
+
+            <input type="submit" value="Login">
+        </form>
+        
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

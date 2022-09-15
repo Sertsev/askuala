@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <nav class="top-nav">
+        <i class="fas fa-bars app-icons" onclick="showMenu()"></i>
+        <form id="sear">
+            <input type="text" name="search" placeholder="Search..">
+        </form>
+
+        <div class="current-time">
+            <h1 id="time"></h1>
+        </div>
+        <div class="vertical-line"></div>
+
+        <div class="user-info" id="user-name">
+            <i class="fas fa-user-circle user-icon"></i>
+            <h2> {{ cuser.firstname }} </h2>
+        </div>
+
+        <div class="vertical-line"></div>
+
+        <div class="info-drop">
+            <i class="fa fa-ellipsis-v three-dots"></i>
+            <div class="info-drop-container" id="info-drop-container">
+                <ul class="info-drop-ul">
+                    <li><a href="#">Full information</a></li>
+                    <li><a href="#">Change profile picture</a></li>
+                    <li><a href="#">Change password</a></li>
+                    <li><a href="{% url 'user_logout' %}">sign out</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+    </nav>
+    <nav class="left-nav">
+
+        <ul class="ul-container">
+            <i class="fas fa-times app-icons" onclick="hideMenu()"></i>
+            <img id="askuala-img" src="{% static 'img/askualaLMS.svg' %}" alt="">
+            <hr>
+            <li><a href="{% url 'dashboard' %}"> <i class="fas fa-home icons"></i> Home</a></li>
+            <li class="li-btn crs"><a href="#">
+                    <i class="fas fa-paperclip icons"></i>Courses</a><i
+                    class="fas fa-angle-down drop-down-icon crs"></i>
+                <div class="links-container">
+                    <ul class="drop-lists crs">
+                        <li><a href="#">added courses</a> </li>
+                        <li><a href="#">semister course</a> </li>
+                        <li><a href="#">manage course</a> </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="li-btn adm"><a href="#">
+                    <i class="fas fa-cog icons"></i>admission</a><i class="fas fa-angle-down drop-down-icon adm"></i>
+                <div class="links-container">
+                    <ul class="drop-lists adm">
+                        <li><a href="#">short term</a> </li>
+                        <li><a href="#">long term</a> </li>
+                        <li><a href="#">re-enrollment</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="li-btn acad"><a href="#">
+                    <i class="fas fa-user-graduate icons"></i>academic achievement</a><i
+                    class="fas fa-angle-down drop-down-icon acad"></i>
+                <div class="links-container">
+                    <ul class="drop-lists acad">
+                        <li><a href="#">acadameic progress</a> </li>
+                        <li><a href="#">grades</a> </li>
+                        <li><a href="#">graduation request</a> </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="li-btn frm"><a href="#">
+                    <i class="fa fa-list icons"></i>forums</a><i class="fas fa-angle-down drop-down-icon frm"></i>
+                <div class="links-container">
+                    <ul class="drop-lists frm">
+                        <li><a href="#">all students</a> </li>
+                        <li><a href="#">batch forum</a> </li>
+                        <li><a href="#">department forum</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="li-btn wdl"><a href="#">
+                    <i class="fas fa-user-cog icons"></i>withdrawal</a><i
+                    class="fas fa-angle-down drop-down-icon wtdl"></i>
+                <div class="links-container">
+                    <ul class="drop-lists wtdl">
+                        <li><a href="#">request withdraw</a> </li>
+                        <li><a href="#">drop out</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class=" li-btn my-profile"><a href="#"> my profile </a><i
+                    class="fas fa-angle-down drop-down-icon mpl"></i>
+                <div class="links-container">
+                    <ul class="drop-lists mpl">
+                        <li><a href="#">full information</a></li>
+                        <li><a href="#">change profile picture</a></li>
+                        <li><a href="#">change password</a></li>
+                        <li><a href="#">sign out</a></li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+
+    </nav>
+    <nav class="right-nav">
+        <i class="fas fa-bell right-bar-icon"></i>
+        <i class="fas fa-calendar right-bar-icon"></i>
+        <i class="fas fa-comment-alt right-bar-icon"></i>
+
+        <div class="social-media">
+            <li class="social-icons"><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li class="social-icons"><a href="#"><i class="fab fa-linkedin"></i></a></li>
+            <li class="social-icons"><a href="#"><i class="fab fa-telegram"></i></a></li>
+            <li class="social-icons"><a href="#"><i class="fab fa-slack"></i></a></li>
+        </div>
+    </nav>
+
+
+
+    <div class="main">
+        <div class="top-container">
+            <div class="left-flex">
+                <div class="inner-left-flex">
+                    <h2> Courses Progress Bar </h2>
+
+                    <label for="sem">Software Engineering</label><br>
+                    <progress id="sem" value="72" max="100"> </progress>
+
+                    <label for="rsm">Rsearch Methedology</label><br>
+                    <progress id="rsm" value="62" max="100"> </progress>
+
+                    <label for="spm">Software Project Management</label><br>
+                    <progress id="spm" value="100" max="100"> </progress>
+
+                    <label for="oop">Object Oriented Programming</label><br>
+                    <progress id="oop" value="0" max="100"> </progress>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%"></div>
+                </div>
+
+                <div class="inner-right-flex">
+                    <div class="box">
+                        <div class="chart" data-percent="60" data-scale-color="#ffb400">60%</div>
+                        <br>
+                        <h2>Overall Progress</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-flex">
+                <h3> Mandatory Tasks </h3>
+            </div>
+        </div>
+        <div class="bottom-container">
+            <h3> Tracking Log </h3>
+        </div>
+    </div>
+
+</div>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js'></script>
+<script src="{% static 'js/side.js' %}"></script>
+
+{% endblock %}

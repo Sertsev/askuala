@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'nav.html' with dash="active" %}
+<section id="welcome">
+    <div class="welcome">
+        Welcome To ASKUALA
+        <div>Welcome To ASKUALA</div>
+        <div>Welcome To ASKUALA</div>
+        <div>Welcome To ASKUALA</div>
+        <div>Welcome To ASKUALA</div>
+        <div>Welcome To ASKUALA</div>
+    </div>
+    <div class="preloader_container" id="tranLogo">
+        <div id="transparentLogo">
+            <img src="{% static 'img/AskualaFinal.png' %}" width="500px">
+        </div>
+    </div>
+    <div id="home_description">
+        <p>
+            American College of Technology (ACT) Learning Management System.
+        </p>
+    </div>
+    <div class="learn_more">
+        <button><a href="https://www.actamericancollege.com/">Learn More</a></button>
+    </div>
+</section>
+{% endblock %}

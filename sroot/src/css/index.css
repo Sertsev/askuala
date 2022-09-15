@@ -1,0 +1,221 @@
+#welcome {
+    position: absolute;
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    text-align: center;
+    width: inherit;
+    flex-direction: column;
+}
+
+#transparentLogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+#tranLogo {
+    z-index: -3;
+    background-color: transparent;
+    opacity: 0.2;
+}
+
+#home_description > p {
+    font-size: large;
+    letter-spacing: 3px;
+    color: #2871CC;
+}
+
+#programs {
+    display: flex;
+    padding: 100px;
+}
+
+.learn_more {
+    margin-top: 3%;
+}
+
+.learn_more button {
+    background-color: transparent;
+    border: none;
+}
+
+.learn_more button a {
+    text-decoration: none;
+    padding: 15px 35px;
+    min-width: 100px;
+    margin: 15px 100px;
+    border: 2px solid #2871CC;
+    background-color: transparent;
+    color: #2871CC;
+    font-size: medium;
+    font-weight: bolder;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida00A8CC Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.learn_more button a:hover {
+    padding: 15px 35px;
+    margin: 15px 100px;
+    min-width: 105px;
+    text-align: center;
+    background-color: #2871CC;
+    color: white;
+    box-shadow: 0 0 5px  #2871CC,
+                0 0 25px #2871CC,
+                0 0 50px #2871CC,
+                0 0 200px #2871CC;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* Welcome Animation Class Starts Here */
+    .welcome {
+    position: relative;
+    margin: inherit;
+    height: 1.12em;
+    color: transparent;
+    font-size: 5vw;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    line-height: 0.8em;
+    }
+
+    .welcome > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #2871CC;
+    pointer-events: none;
+    }
+
+    .welcome > div:nth-child(1) {
+    -webkit-mask-image: linear-gradient(black 25%, transparent 25%);
+    mask-image: linear-gradient(black 25%, transparent 25%);
+    animation: welcome1 5s infinite;
+    }
+
+    .welcome > div:nth-child(2) {
+    -webkit-mask-image: linear-gradient(transparent 25%, black 25%, black 50%, transparent 50%);
+    mask-image: linear-gradient(transparent 25%, black 25%, black 50%, transparent 50%);
+    animation: welcome2 5s infinite;
+    }
+
+    .welcome > div:nth-child(3) {
+    -webkit-mask-image: linear-gradient(transparent 50%, black 50%, black 75%, transparent 75%);
+    mask-image: linear-gradient(transparent 50%, black 50%, black 75%, transparent 75%);
+    animation: welcome3 5s infinite;
+    }
+
+    .welcome > div:nth-child(4) {
+    -webkit-mask-image: linear-gradient(transparent 75%, black 75%);
+    mask-image: linear-gradient(transparent 75%, black 75%);
+    animation: welcome4 5s infinite;
+    }
+        .welcome > div:nth-child(5) {
+    -webkit-mask-image: linear-gradient(transparent 95%, black 95%);
+    mask-image: linear-gradient(transparent 95%, black 95%);
+    animation: welcome4 5s infinite;
+    }
+
+    @keyframes welcome1 {
+    0% {
+        transform: translateX(100%);
+    }
+    26% {
+        transform: translateX(0%);
+    }
+    83% {
+        transform: translateX(-0.1%);
+    }
+    100% {
+        transform: translateX(-120%);
+    }
+    }
+
+    @keyframes welcome2 {
+    0% {
+        transform: translateX(100%);
+    }
+    24% {
+        transform: translateX(0.5%);
+    }
+    82% {
+        transform: translateX(-0.2%);
+    }
+    100% {
+        transform: translateX(-125%);
+    }
+    }
+
+    @keyframes welcome3 {
+    0% {
+        transform: translateX(100%);
+    }
+    22% {
+        transform: translateX(0%);
+    }
+    81% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-130%);
+    }
+    }
+
+    @keyframes welcome4 {
+    0% {
+        transform: translateX(100%);
+    }
+    20% {
+        transform: translateX(0%);
+    }
+    80% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-135%);
+    }
+    }
+        @keyframes welcome5 {
+    0% {
+        transform: translateX(100%);
+    }
+    20% {
+        transform: translateX(0%);
+    }
+    80% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-135%);
+    }
+    }
+/* ends Here */
+
+@media (max-width: 600px) {
+.welcome {
+    font-size: 9vw;
+}
+
+.learn_more button a {
+    padding: 5px 12px;
+    margin: 3px 20px;
+}
+
+#home_description > p{
+    font-size: small;
+    letter-spacing: normal;
+}
+
+.learn_more button a:hover {
+    padding: 5px 12px;
+    margin: 3px 30px;
+    box-shadow: 0 0 1px  #2871CC,
+                0 0 5px #2871CC,
+                0 0 10px #2871CC,
+                0 0 20px #2871CC;
+}    
+}

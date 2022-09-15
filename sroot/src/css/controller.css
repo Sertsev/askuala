@@ -1,0 +1,101 @@
+.tablecontainer {
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.student_table {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: rgba(4, 154, 255, 0.7);
+    text-align: center;
+    border-collapse: collapse;
+    border-radius: 5%;
+    /* position: absolute; */
+}
+
+.student_table input[type=search] {
+    width: 50%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    color: hsl(60, 7%, 35%);
+    background-color: hsl(60, 7%, 90%);
+    background-image: url("../img/search.svg");
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 10px 15px 10px 45px;
+    margin: 1.5%;
+}
+
+.student_table  input[type=search]:focus,
+.student_table  input[type=search]:hover {
+    background-color: rgb(45, 32, 70);
+    color: azure;
+}
+
+.student_table table {
+    width: 100%;
+}
+
+.student_table td, .student_table th {
+    border: 2px solid white;
+    padding: 10px;
+    color: rgb(0, 0, 0);
+}
+.student_table td button {
+    padding: 5px 20px;
+    border: 2px solid #2871CC;
+    background-color: #2871CC;
+    color: wheat;
+}
+
+.student_table td button:hover {
+    font-weight: bold;
+    border: 2px solid red;
+    background-color: transparent;
+    color: red;
+}
+
+.mybutton {
+    margin-left: 5%;
+    padding: 5px 20px;
+    font-weight: bold;
+    border: 2px solid blue;
+    background-color: transparent;
+    color: green;
+}
+
+.mybutton:hover {
+    border: 2px solid #2871CC;
+    background-color: #2871CC;
+    color: wheat;
+}
+
+.student_table td #approve:hover {
+    font-weight: bold;
+    border: 2px solid green;
+    background-color: transparent;
+    color: rgb(0, 255, 13);
+}
+
+.student_table th {
+    background-color: #2871CC;
+    color: azure;
+}
+
+.student_table tr:nth-child(even) { 
+    background-color: rgb(187, 189, 189); 
+}
+
+.student_table tr:hover {
+    background-color: rgb(157, 113, 194);
+
+}
+
+
+
