@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from django.db import models
-from programs.models import Courses, Department, Program, Batches
+from programs.models import Courses, Department, Batches, Program
 
 def path_and_rename(instance, filename):
     upload_to = 'Images/'
@@ -107,7 +107,7 @@ class Lecturers(models.Model):
 
     documentLocation = models.CharField(max_length=511, null=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
-    EducationLevel = models.CharField(max_length=255)
+    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
 
     program = models.ManyToManyField(Program)
     department = models.ManyToManyField(Department)

@@ -19,7 +19,7 @@ class Program(models.Model):
     programName = models.CharField(max_length=63)
     programDescription = models.CharField(max_length=63, null=True)
     programInfoLink = models.CharField(max_length=255, null=True)
-    resources = models.CharField(max_length=127)
+    resourceAddress = models.CharField(max_length=127, null=True)
 
     def __str__(self):
         return self.programName
@@ -31,7 +31,7 @@ class Department(models.Model):
     departmentDescription = models.CharField(max_length=1023, null=True)
     program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
     departmentHead = models.CharField(max_length=127, null=True)
-    resources = models.CharField(max_length=127)
+    resources = models.CharField(max_length=127, null=True)
 
     def __str__(self):
         return self.departmentName
@@ -42,7 +42,7 @@ class Courses(models.Model):
     courseName = models.CharField(max_length=255)
     courseDescription = models.CharField(max_length=1023, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    resources = models.CharField(max_length=127)
+    resources = models.CharField(max_length=127, null=True)
     
     def __str__(self):
         return self.courseName
@@ -53,7 +53,4 @@ class Courses_in_Batch(models.Model):
     program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
     course = models.ForeignKey(Courses, on_delete=models.PROTECT)
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
-    Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
-    batchEntryYear = models.PositiveSmallIntegerField(choices=Years)
-    batchGraduationYear = models.PositiveSmallIntegerField(choices=Years)
     semester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)])
