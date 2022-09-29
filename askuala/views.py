@@ -7,9 +7,12 @@ def index(request):
     """_summary_
 
     Args:
-        request (_type_): _description_
+        request (httprequest): _description_
 
     Returns:
         html: render an html file
     """    
     return render(request, 'index.html')
+
+
+

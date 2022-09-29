@@ -3,6 +3,8 @@ from datetime import datetime
 from django.db import models
 from programs.models import Courses, Department, Batches, Program
 
+""" More info when filtering techniques rewatch 42 - 53 """
+
 def path_and_rename(instance, filename):
     upload_to = 'Images/'
     # ext = filename.split('.')[-1]
@@ -29,6 +31,7 @@ class Registrars(models.Model):
 
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
     EducationLevel = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
+
 
     createdAt = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateField(auto_now=True)
@@ -60,7 +63,9 @@ class Students(models.Model):
 
     documentLocation = models.CharField(max_length=511, null=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
-    previousEducationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
+    previousEducationLevel = models.CharField(max_length=127, choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
+    previousEducationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]])
+    # shortCourses = models.ManyToManyField(Courses)
 
     Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
     academicYear = models.PositiveSmallIntegerField(choices=Years, default=2022)
@@ -108,6 +113,7 @@ class Lecturers(models.Model):
     documentLocation = models.CharField(max_length=511, null=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
     educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
+    educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]])
 
     program = models.ManyToManyField(Program)
     department = models.ManyToManyField(Department)
@@ -143,8 +149,9 @@ class Guests(models.Model):
 
     documentLocation = models.CharField(max_length=511, null=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
-    EducationLevel = models.CharField(max_length=255)
-    courses = models.ManyToManyField(Courses)
+    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
+    educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]])
+    shortCourses = models.ManyToManyField(Courses)
 
     createdAt = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateField(auto_now=True)
