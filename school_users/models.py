@@ -1,3 +1,4 @@
+from enum import unique
 import os
 from datetime import datetime
 from django.db import models
@@ -24,7 +25,7 @@ class Registrars(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=Gender)
 
-    email = models.EmailField(max_length=63, null=True)
+    email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=32, null=True)
     birthdate = models.DateField(null=True)
@@ -40,6 +41,8 @@ class Registrars(models.Model):
     def __str__(self):
         return self.firstName
 
+    class Meta:
+        ordering = ['firstName']
 
 class Students(models.Model):
     studentId = models.AutoField(primary_key=True)
@@ -53,7 +56,7 @@ class Students(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=Gender)
 
-    email = models.EmailField(max_length=63, null=True)
+    email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=32, null=True)
     birthdate = models.DateField(null=True)
@@ -89,6 +92,9 @@ class Students(models.Model):
     def __str__(self):
         return self.firstName
 
+    class Meta:
+        ordering = ['firstName']
+
 
 class Lecturers(models.Model):
     lectureId = models.AutoField(primary_key=True)
@@ -102,7 +108,7 @@ class Lecturers(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=Gender)
 
-    email = models.EmailField(max_length=63, null=True)
+    email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=32, null=True)
     birthdate = models.DateField(null=True)
@@ -126,6 +132,8 @@ class Lecturers(models.Model):
     def __str__(self):
         return self.firstName
 
+    class Meta:
+        ordering = ['firstName']
 
 class Guests(models.Model):
     guestId = models.AutoField(primary_key=True)
@@ -139,7 +147,7 @@ class Guests(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=Gender)
 
-    email = models.EmailField(max_length=63, null=True)
+    email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=32, null=True)
     birthdate = models.DateField(null=True)
@@ -159,3 +167,6 @@ class Guests(models.Model):
 
     def __str__(self):
         return self.firstName
+
+    class Meta:
+        ordering = ['firstName']

@@ -19,6 +19,10 @@ from django.urls import path
 from django.urls.conf import include
 from .views import index
 
+admin.site.site_header = "ASKUALA Administration Window"
+admin.site.index_title = "Admin"
+# admin.site.site_background = "white"
+
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
