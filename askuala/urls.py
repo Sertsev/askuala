@@ -21,6 +21,7 @@ from .views import index
 
 admin.site.site_header = "ASKUALA Administration Window"
 admin.site.index_title = "Admin"
+admin.site.site_title = "ASKUALA Site  Administration"
 # admin.site.site_background = "white"
 
 urlpatterns = [

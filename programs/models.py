@@ -54,3 +54,18 @@ class Courses_in_Batch(models.Model):
     course = models.ForeignKey(Courses, on_delete=models.PROTECT)
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
     semester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)])
+
+    def __str__(self):
+        return self.batch.batchName + " " + self.program.programName
+
+    def batchName(self):
+        return self.batch.batchName
+    
+    def programName(self):
+        return self.program.programName
+
+    def courseName(self):
+        return self.course.courseName
+    
+    def departmentName(self):
+        return self.department.departmentName

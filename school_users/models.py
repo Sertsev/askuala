@@ -31,8 +31,8 @@ class Registrars(models.Model):
     birthdate = models.DateField(null=True)
 
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
-    EducationLevel = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
-
+    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
+    educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]])
 
     createdAt = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateField(auto_now=True)
@@ -40,6 +40,9 @@ class Registrars(models.Model):
 
     def __str__(self):
         return self.firstName
+
+    def fullName(self):
+        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
         ordering = ['firstName']
@@ -91,6 +94,9 @@ class Students(models.Model):
 
     def __str__(self):
         return self.firstName
+    
+    def fullName(self):
+        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
         ordering = ['firstName']
@@ -132,6 +138,9 @@ class Lecturers(models.Model):
     def __str__(self):
         return self.firstName
 
+    def fullName(self):
+        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
+
     class Meta:
         ordering = ['firstName']
 
@@ -167,6 +176,9 @@ class Guests(models.Model):
 
     def __str__(self):
         return self.firstName
+
+    def fullName(self):
+        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
         ordering = ['firstName']
