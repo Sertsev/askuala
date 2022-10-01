@@ -1,30 +1,30 @@
 from django.contrib import admin
-from school_users.models import Guests, Lecturers, Registrars, Students
+from school_users.models import Guest, Lecturer, Registrar, Student
 
 
-@admin.register(Guests)
+@admin.register(Guest)
 class GuestsAdmin(admin.ModelAdmin):
-    list_display = ['fullName', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
+    list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
     list_editable = ['active']
     list_per_page = 10
 
 
-@admin.register(Students)
+@admin.register(Student)
 class StudentsAdmin(admin.ModelAdmin):
-    list_display = ['fullName', 'email', 'previousEducationLevel', 'previousEducationDepartment', 'academicYear', 'active', 'verified', 'enrollment_type']
+    list_display = ['full_name', 'email', 'batch', 'program', 'academicYear', 'active', 'verified', 'enrollment_type']
     list_editable = ['active', 'academicYear', 'verified', 'enrollment_type']
     list_per_page = 10
 
 
-@admin.register(Lecturers)
+@admin.register(Lecturer)
 class LecturersAdmin(admin.ModelAdmin):
-    list_display = ['fullName', 'email', 'educationLevel', 'educationDepartment', 'active', 'verified', 'lastUpdate']
-    list_editable = ['active', 'verified']
+    list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'verified', 'lastUpdate']
+    list_editable = ['educationDepartment', 'active', 'verified']
     list_per_page = 10
 
 
-@admin.register(Registrars)
+@admin.register(Registrar)
 class RegistrarsAdmin(admin.ModelAdmin):
-    list_display = ['fullName', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
+    list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
     list_editable = ['active']
     list_per_page = 10

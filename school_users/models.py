@@ -2,7 +2,7 @@ from enum import unique
 import os
 from datetime import datetime
 from django.db import models
-from programs.models import Courses, Department, Batches, Program
+from programs.models import Course, Department, Batch, Program
 
 """ More info when filtering techniques rewatch 42 - 53 """
 
@@ -14,7 +14,7 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 
-class Registrars(models.Model):
+class Registrar(models.Model):
     registrarId = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=63)
     middleName = models.CharField(max_length=63)
@@ -41,13 +41,13 @@ class Registrars(models.Model):
     def __str__(self):
         return self.firstName
 
-    def fullName(self):
+    def full_name(self):
         return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
-        ordering = ['firstName']
+        ordering = ['firstName', 'middleName', 'lastName']
 
-class Students(models.Model):
+class Student(models.Model):
     studentId = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=63)
     middleName = models.CharField(max_length=63)
@@ -79,8 +79,8 @@ class Students(models.Model):
     currentSemester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)])
     program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
     department = models.ManyToManyField(Department)
-    courses = models.ManyToManyField(Courses)
-    batch = models.ForeignKey(Batches, null=True, on_delete=models.SET_NULL)
+    courses = models.ManyToManyField(Course)
+    batch = models.ForeignKey(Batch, null=True, on_delete=models.SET_NULL)
     createdAt = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateTimeField(auto_now=True)
     verified = models.BooleanField(default=False)
@@ -95,14 +95,14 @@ class Students(models.Model):
     def __str__(self):
         return self.firstName
     
-    def fullName(self):
+    def full_name(self):
         return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
-        ordering = ['firstName']
+        ordering = ['firstName', 'middleName', 'lastName']
 
 
-class Lecturers(models.Model):
+class Lecturer(models.Model):
     lectureId = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=63)
     middleName = models.CharField(max_length=63)
@@ -129,7 +129,7 @@ class Lecturers(models.Model):
 
     program = models.ManyToManyField(Program)
     department = models.ManyToManyField(Department)
-    courses = models.ManyToManyField(Courses)
+    courses = models.ManyToManyField(Course)
     createdAt = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateField(auto_now=True)
     verified = models.BooleanField(default=False)
@@ -138,13 +138,13 @@ class Lecturers(models.Model):
     def __str__(self):
         return self.firstName
 
-    def fullName(self):
+    def full_name(self):
         return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
-        ordering = ['firstName']
+        ordering = ['firstName', 'middleName', 'lastName']
 
-class Guests(models.Model):
+class Guest(models.Model):
     guestId = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=63)
     middleName = models.CharField(max_length=63)
@@ -168,7 +168,7 @@ class Guests(models.Model):
     profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Pictures", blank=True)
     educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]])
     educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]])
-    shortCourses = models.ManyToManyField(Courses)
+    shortCourses = models.ManyToManyField(Course)
 
     createdAt = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateField(auto_now=True)
@@ -177,8 +177,8 @@ class Guests(models.Model):
     def __str__(self):
         return self.firstName
 
-    def fullName(self):
+    def full_name(self):
         return self.firstName + ' ' + self.middleName + ' ' + self.lastName
 
     class Meta:
-        ordering = ['firstName']
+        ordering = ['firstName', 'middleName', 'lastName']

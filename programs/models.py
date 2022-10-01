@@ -1,9 +1,11 @@
+from asyncio.windows_events import NULL
 from datetime import datetime
+from pickle import NONE
 from turtle import mode
 from django.db import models
 
 
-class Batches(models.Model):
+class Batch(models.Model):
     batchId = models.AutoField(primary_key=True)
     batchName = models.CharField(max_length=63)
     Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
@@ -12,6 +14,9 @@ class Batches(models.Model):
 
     def __str__(self):
         return self.batchName
+
+    class Meta:
+        ordering = ['batchName']
 
 
 class Program(models.Model):
@@ -29,7 +34,7 @@ class Department(models.Model):
     departmentId = models.AutoField(primary_key=True)
     departmentName = models.CharField(max_length=127)
     departmentDescription = models.CharField(max_length=1023, null=True)
-    program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
+    program = models.ManyToManyField(Program)
     departmentHead = models.CharField(max_length=127, null=True)
     resources = models.CharField(max_length=127, null=True)
 
@@ -37,7 +42,7 @@ class Department(models.Model):
         return self.departmentName
 
 
-class Courses(models.Model):
+class Course(models.Model):
     courseId = models.AutoField(primary_key=True)
     courseName = models.CharField(max_length=255)
     courseDescription = models.CharField(max_length=1023, null=True)
@@ -47,20 +52,20 @@ class Courses(models.Model):
     def __str__(self):
         return self.courseName
 
+    def departmentName(self):
+        return self.department.departmentName 
+
 
 class Courses_in_Batch(models.Model):
-    batch = models.ForeignKey(Batches, on_delete=models.CASCADE)
-    program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
-    course = models.ForeignKey(Courses, on_delete=models.PROTECT)
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
     semester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)])
 
     def __str__(self):
         return self.batch.batchName + " " + self.program.programName
 
-    def batchName(self):
-        return self.batch.batchName
-    
     def programName(self):
         return self.program.programName
 
