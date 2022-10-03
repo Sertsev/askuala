@@ -11,7 +11,7 @@ class BatchAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'Number_of_students', 'batchEntryYear', 'batchGraduationYear']
     list_editable = ['batchGraduationYear'] 
     list_per_page = 10
-    search_fields = ['batchName']
+    search_fields = ['batchName__istartswith', 'batchEntryYear__istartswith']
 
     @admin.display(ordering="student_count")
     def Number_of_students(self, Batch):
@@ -33,7 +33,8 @@ class ProgramAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'Number_of_students', 'No_of_lecturers', 'programDescription', 'programInfoLink','resourceAddress']
     list_editable = ['programInfoLink'] 
     list_per_page = 10
-    search_fields = ['programName']
+    search_fields = ['programName__istartswith']
+    ordering = ['programName']
 
     @admin.display(ordering="student_count")
     def Number_of_students(self, Program):
@@ -68,7 +69,8 @@ class DepartmentAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'No_of_students', 'No_of_lecturers', 'departmentDescription', 'departmentHead', 'resources']
     list_editable = ['departmentHead'] 
     list_per_page = 10
-    search_fields = ['departmentName']
+    search_fields = ['departmentName__istartswith', 'departmentHead__istartswith']
+    ordering = ['departmentName']
 
     @admin.display(ordering="student_count")
     def No_of_students(self, Department):
@@ -102,8 +104,10 @@ class DepartmentAdmin(admin.ModelAdmin):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'No_of_students', 'No_of_guests', 'No_of_lecturers', 'courseDescription', 'department', 'resources']
-    # list_editable = ['departmentName']
+    list_editable = ['department']
     list_per_page = 10
+    search_fields = ['courseName__istartswith', 'department__istartswith']
+    ordering = ['courseName']
 
     @admin.display(ordering="student_count")
     def No_of_students(self, Course):
@@ -151,8 +155,7 @@ class CBAdmin(admin.ModelAdmin):
     list_display = ['__str__','batch_name', 'program', 'course', 'department', 'semester']
     list_editable = ['semester']
     list_per_page = 10
-    # list_select_related = ['batch']
+    search_fields = ['batch_name__istartswith', 'department__istartswith', 'course__istartswith', 'program__istartswith']
 
-    # @admin.
     def batch_name(self, Courses_in_Batch):
         return Courses_in_Batch.batch.batchName

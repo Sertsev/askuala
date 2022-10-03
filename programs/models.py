@@ -7,10 +7,10 @@ from django.db import models
 
 class Batch(models.Model):
     batchId = models.AutoField(primary_key=True)
-    batchName = models.CharField(max_length=63)
+    batchName = models.CharField(max_length=63, verbose_name="Batch Name")
     Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
-    batchEntryYear = models.PositiveSmallIntegerField(choices=Years)
-    batchGraduationYear = models.DateField()
+    batchEntryYear = models.PositiveSmallIntegerField(choices=Years, verbose_name="Entry Year")
+    batchGraduationYear = models.DateField(verbose_name="Graduation Year")
 
     def __str__(self):
         return self.batchName
@@ -21,10 +21,10 @@ class Batch(models.Model):
 
 class Program(models.Model):
     programId = models.AutoField(primary_key=True)
-    programName = models.CharField(max_length=63)
-    programDescription = models.CharField(max_length=63, null=True)
-    programInfoLink = models.CharField(max_length=255, null=True)
-    resourceAddress = models.CharField(max_length=127, null=True)
+    programName = models.CharField(max_length=63, verbose_name="Program Name")
+    programDescription = models.CharField(max_length=63, null=True, verbose_name="Description")
+    programInfoLink = models.CharField(max_length=255, null=True, verbose_name="More Information Link")
+    resourceAddress = models.CharField(max_length=127, null=True, verbose_name="Resource Address")
 
     def __str__(self):
         return self.programName
@@ -32,10 +32,10 @@ class Program(models.Model):
 
 class Department(models.Model):
     departmentId = models.AutoField(primary_key=True)
-    departmentName = models.CharField(max_length=127)
-    departmentDescription = models.CharField(max_length=1023, null=True)
+    departmentName = models.CharField(max_length=127, verbose_name="Department Name")
+    departmentDescription = models.CharField(max_length=1023, null=True, verbose_name="Description")
     program = models.ManyToManyField(Program)
-    departmentHead = models.CharField(max_length=127, null=True)
+    departmentHead = models.CharField(max_length=127, null=True, verbose_name="Department Head")
     resources = models.CharField(max_length=127, null=True)
 
     def __str__(self):
@@ -44,8 +44,8 @@ class Department(models.Model):
 
 class Course(models.Model):
     courseId = models.AutoField(primary_key=True)
-    courseName = models.CharField(max_length=255)
-    courseDescription = models.CharField(max_length=1023, null=True)
+    courseName = models.CharField(max_length=255, verbose_name="Course Name")
+    courseDescription = models.CharField(max_length=1023, null=True, verbose_name="Description")
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     resources = models.CharField(max_length=127, null=True)
     

@@ -182,7 +182,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "Kushtopia Technologies",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "auth.User",
+    "search_model": "school_users.Student",
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": "/admin_pic/usrpp.jpg",
