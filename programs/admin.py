@@ -106,8 +106,9 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'No_of_students', 'No_of_guests', 'No_of_lecturers', 'courseDescription', 'department', 'resources']
     list_editable = ['department']
     list_per_page = 10
-    search_fields = ['courseName__istartswith', 'department__istartswith']
+    search_fields = ['courseName__istartswith']
     ordering = ['courseName']
+    list_filter = ['department']
 
     @admin.display(ordering="student_count")
     def No_of_students(self, Course):
@@ -155,7 +156,8 @@ class CBAdmin(admin.ModelAdmin):
     list_display = ['__str__','batch_name', 'program', 'course', 'department', 'semester']
     list_editable = ['semester']
     list_per_page = 10
-    search_fields = ['batch_name__istartswith', 'department__istartswith', 'course__istartswith', 'program__istartswith']
+    search_fields = ['batch_name__istartswith']
+    list_filter = ['program', 'department']
 
     def batch_name(self, Courses_in_Batch):
         return Courses_in_Batch.batch.batchName

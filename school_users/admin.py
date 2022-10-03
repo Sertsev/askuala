@@ -5,7 +5,7 @@ from school_users.models import Guest, Lecturer, Registrar, Student
 @admin.register(Guest)
 class GuestsAdmin(admin.ModelAdmin):
     list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
-    list_editable = ['active']
+    list_editable = ['active', 'educationDepartment']
     list_per_page = 10
     list_filter = ['educationLevel', 'educationDepartment']
     search_fields = ['firstName__istartswith', 'middleName__istartswith', 'lastName__istartswith',]
