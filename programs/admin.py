@@ -15,7 +15,7 @@ class BatchAdmin(admin.ModelAdmin):
 
     @admin.display(ordering="student_count")
     def Number_of_students(self, Batch):
-        url = ( # admin:app_model_page
+        url = ( 
             reverse('admin:school_users_student_changelist')
             + '?'
             + urlencode({

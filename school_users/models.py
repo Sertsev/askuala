@@ -1,10 +1,9 @@
-from enum import unique
 import os
 from datetime import datetime
 from django.db import models
 from programs.models import Course, Department, Batch, Program
 
-""" More info when filtering techniques rewatch 42 - 53 """
+""" More info when filtering techniques re-watch 42 - 53 """
 
 def path_and_rename(instance, filename):
     upload_to = 'Images/'
@@ -27,12 +26,18 @@ class Registrar(models.Model):
 
     email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number")
-    birthdate = models.DateField(null=True)
+    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+    birthdate = models.DateField(null=True, blank=True)
 
-    profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Photo Directory", blank=True)
-    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]], verbose_name="Education Level")
-    educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]], verbose_name="Department")
+    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    progs = [
+        (x, x) for x in [a.programName for a in Program.objects.all()]
+        ]
+    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
+    deps = [
+        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        ]
+    educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Department")
 
     createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date")
     lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
@@ -60,16 +65,22 @@ class Student(models.Model):
 
     email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number")
-    birthdate = models.DateField(null=True)
-    citizenship = models.CharField(max_length=127, null=True)
-    country = models.CharField(max_length=127, null=True)
-    city = models.CharField(max_length=63, null=True)
+    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+    birthdate = models.DateField(null=True, blank=True)
+    citizenship = models.CharField(max_length=127, null=True, blank=True)
+    country = models.CharField(max_length=127, null=True, blank=True)
+    city = models.CharField(max_length=63, null=True, blank=True)
 
-    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location")
-    profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Photo Directory", blank=True)
-    previousEducationLevel = models.CharField(max_length=127, choices=[(x, x) for x in [a.programName for a in Program.objects.all()]], verbose_name="Previous Education Level")
-    previousEducationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]], verbose_name="Previous Study")
+    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
+    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    progs = [
+        (x, x) for x in [a.programName for a in Program.objects.all()]
+        ]
+    previousEducationLevel = models.CharField(max_length=127, choices=progs, verbose_name="Previous Education Level")
+    deps = [
+        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        ]
+    previousEducationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
     # shortCourses = models.ManyToManyField(Courses)
 
     Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
@@ -114,16 +125,22 @@ class Lecturer(models.Model):
 
     email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number")
-    birthdate = models.DateField(null=True)
-    citizenship = models.CharField(max_length=127, null=True)
-    country = models.CharField(max_length=127, null=True)
-    city = models.CharField(max_length=63, null=True)
+    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+    birthdate = models.DateField(null=True, blank=True)
+    citizenship = models.CharField(max_length=127, null=True, blank=True)
+    country = models.CharField(max_length=127, null=True, blank=True)
+    city = models.CharField(max_length=63, null=True, blank=True)
 
-    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location")
-    profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Photo Directory", blank=True)
-    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]], verbose_name="Education Level")
-    educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]], verbose_name="Department")
+    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
+    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    progs = [
+        (x, x) for x in [a.programName for a in Program.objects.all()]
+        ]
+    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
+    deps = [
+        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        ]
+    educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Department")
 
     program = models.ManyToManyField(Program)
     department = models.ManyToManyField(Department)
@@ -155,16 +172,22 @@ class Guest(models.Model):
 
     email = models.EmailField(max_length=63, unique=True)
     password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number")
-    birthdate = models.DateField(null=True)
-    citizenship = models.CharField(max_length=127, default='Ethiopian' ,null=True)
-    country = models.CharField(max_length=127, default='Ethiopia', null=True)
-    city = models.CharField(max_length=63, default='Addis Ababa', null=True)
+    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+    birthdate = models.DateField(null=True, blank=True)
+    citizenship = models.CharField(max_length=127, default='Ethiopian', blank=True)
+    country = models.CharField(max_length=127, default='Ethiopia', blank=True)
+    city = models.CharField(max_length=63, default='Addis Ababa', blank=True)
 
-    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location")
-    profilePicDir = models.ImageField(upload_to=path_and_rename, verbose_name="Profile Photo Directory", blank=True)
-    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=[(x, x) for x in [a.programName for a in Program.objects.all()]], verbose_name="Education Level")
-    educationDepartment = models.CharField(max_length=127, choices=[(x, x) for x in [a.departmentName for a in Department.objects.all()]], verbose_name="Previous Study")
+    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
+    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    progs = [
+        (x, x) for x in [a.programName for a in Program.objects.all()]
+        ]
+    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
+    deps = [
+        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        ]
+    educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
     shortCourses = models.ManyToManyField(Course)
 
     createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date")
