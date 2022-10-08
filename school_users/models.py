@@ -31,11 +31,11 @@ class Registrar(models.Model):
 
     profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
     progs = [
-        (x, x) for x in [a.programName for a in Program.objects.all()]
+        # (x, x) for x in [a.programName for a in Program.objects.all()]
         ]
     educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
     deps = [
-        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        # (x, x) for x in [a.departmentName for a in Department.objects.all()]
         ]
     educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Department")
 
@@ -74,11 +74,11 @@ class Student(models.Model):
     documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
     progs = [
-        (x, x) for x in [a.programName for a in Program.objects.all()]
+        # (x, x) for x in [a.programName for a in Program.objects.all()]
         ]
     previousEducationLevel = models.CharField(max_length=127, choices=progs, verbose_name="Previous Education Level")
     deps = [
-        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        # (x, x) for x in [a.departmentName for a in Department.objects.all()]
         ]
     previousEducationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
     # shortCourses = models.ManyToManyField(Courses)
@@ -134,11 +134,11 @@ class Lecturer(models.Model):
     documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
     progs = [
-        (x, x) for x in [a.programName for a in Program.objects.all()]
+        # (x, x) for x in [a.programName for a in Program.objects.all()]
         ]
     educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
     deps = [
-        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        # (x, x) for x in [a.departmentName for a in Department.objects.all()]
         ]
     educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Department")
 
@@ -181,11 +181,11 @@ class Guest(models.Model):
     documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
     profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
     progs = [
-        (x, x) for x in [a.programName for a in Program.objects.all()]
+        # (x, x) for x in [a.programName for a in Program.objects.all()]
         ]
     educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
     deps = [
-        (x, x) for x in [a.departmentName for a in Department.objects.all()]
+        # (x, x) for x in [a.departmentName for a in Department.objects.all()]
         ]
     educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
     shortCourses = models.ManyToManyField(Course)

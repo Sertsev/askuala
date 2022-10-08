@@ -4,7 +4,8 @@ from school_users.models import *
 from programs.models import *
 
 class Assignment(models.Model):
-    assignmentId = models.PositiveIntegerField(verbose_name="ID")
+    assignmentId = models.PositiveIntegerField(
+        verbose_name="ID", primary_key=True)
     assignmentName = models.CharField(max_length=255, verbose_name="Title")
     assignmentDescription = models.TextField(verbose_name="Description")
     deadline = models.DateField()
@@ -25,7 +26,7 @@ class Assignment(models.Model):
 
 
 class Quiz(models.Model):
-    quizId = models.PositiveIntegerField(verbose_name="ID")
+    quizId = models.PositiveIntegerField(verbose_name="ID", primary_key=True)
     quizName = models.CharField(max_length=255, verbose_name="Title")
     quizDescription = models.TextField(verbose_name="Description")
     openingTime = models.DateTimeField(verbose_name="Quiz Opening Time")
@@ -47,7 +48,16 @@ class Quiz(models.Model):
 
 
 class QuizQuestion(models.Model):
-    questionId = models.UUIDField()
+    """_summary_
+
+    Args:
+        models (_type_): _description_
+
+    Returns:
+        _type_: 
+    """
+    questionId = models.PositiveBigIntegerField(
+        verbose_name="ID", primary_key=True)
     quizId = models.ForeignKey(Quiz, on_delete=models.CASCADE, verbose_name="ID")
     questionDetail = models.TextField(verbose_name="Question")
     imageDir = models.CharField(max_length=127, null=True, blank=True, verbose_name="Image Link")
@@ -57,15 +67,22 @@ class QuizQuestion(models.Model):
     choiceD = models.CharField(max_length=127, null=True, blank=True, verbose_name="Choice D")
     choiceE = models.CharField(max_length=127, null=True, blank=True, verbose_name="Choice E")
     choiceF = models.CharField(max_length=127, null=True, blank=True, verbose_name="Choice F")
+    answer = models.CharField(max_length=63)
+    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Creation TimeStamp")
+    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
+    
 
     def __str__(self):
         return self.questionId
 
 
 class Point(models.Model):
-    pointId = models.PositiveBigIntegerField(verbose_name="ID")
+    pointId = models.PositiveBigIntegerField(primary_key=True, verbose_name="ID")
     assessmentType = models.CharField(max_length=63, choices=[('Quiz', 'Quiz'), ('Assignment', ('Assignment'))],verbose_name="Assessment Type")
     assessmentId = models.PositiveBigIntegerField(verbose_name="Assessment ID")
     studentId = models.ForeignKey(Student, on_delete=models.CASCADE)
-    lecturerId = models.ForeignKey(Lecturer, on_delete=models.SET_NULL)
+    lecturerId = models.ForeignKey(Lecturer, null=True, on_delete=models.SET_NULL)
     feedback = models.TextField()
+    createdAt = models.DateTimeField(
+        auto_now_add=True, verbose_name="Quiz Creation TimeStamp")
+    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
