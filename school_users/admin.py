@@ -34,8 +34,8 @@ class StudentsAdmin(admin.ModelAdmin):
         'documentLocation': ['firstName']
     }
     actions = ['activate', 'deactivate']
-    list_display = ['full_name', 'email', 'batch_name', 'current_program', 'academicYear', 'active', 'verified', 'enrollment_type']
-    list_editable = ['active', 'academicYear', 'enrollment_type']
+    list_display = ['full_name', 'email', 'batch_name', 'current_program', 'active', 'verified', 'enrollment_type']
+    list_editable = ['active', 'enrollment_type']
     list_per_page = 10
     list_filter = ['batch', 'program']
     search_fields = ['firstName__startswith', 'middleName__startswith', 'lastName__istartswith']#__startswith', 'batch__istartswith', 'program__istartswith', 'enrollment_type__istartswith']

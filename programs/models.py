@@ -8,8 +8,9 @@ class Batch(models.Model):
     Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
     batchEntryYear = models.PositiveSmallIntegerField(choices=Years, verbose_name="Entry Year")
     batchGraduationYear = models.DateField(verbose_name="Graduation Year")
-    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Creation TimeStamp")
-    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
+    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(
+        auto_now=True, verbose_name="Last Update", blank=True)
 
     def __str__(self):
         return self.batchName
@@ -21,12 +22,12 @@ class Batch(models.Model):
 class Program(models.Model):
     programId = models.AutoField(primary_key=True)
     programName = models.CharField(max_length=63, verbose_name="Program Name")
-    programDescription = models.CharField(max_length=63, null=True, verbose_name="Description", blank=True)
+    programDescription = models.CharField(max_length=63, null=True, verbose_name="Title", blank=True)
     programInfoLink = models.CharField(max_length=255, null=True, verbose_name="More Information Link", blank=True)
     resourceAddress = models.CharField(max_length=127, null=True, verbose_name="Resource Address", blank=True)
     createdAt = models.DateTimeField(
-        auto_now_add=True, verbose_name="Creation TimeStamp")
-    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
+        auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(auto_now=True, verbose_name="Last Update", blank=True)
 
     def __str__(self):
         return self.programName
@@ -35,14 +36,14 @@ class Program(models.Model):
 class Department(models.Model):
     departmentId = models.AutoField(primary_key=True)
     departmentName = models.CharField(max_length=127, verbose_name="Department Name")
-    departmentDescription = models.CharField(max_length=1023, null=True, verbose_name="Description", blank=True)
+    departmentDescription = models.TextField(null=True, verbose_name="Description", blank=True)
     program = models.ManyToManyField(Program)
-    departmentHead = models.CharField(max_length=127, verbose_name="Department Head")
+    departmentHead = models.CharField(max_length=127, null=True, blank=True, verbose_name="Department Head")
     # departmentHead = models.ForeignKey('school_users.Lecturer', on_delete=models.PROTECT)
     resources = models.CharField(max_length=127, null=True, blank=True)
     createdAt = models.DateTimeField(
-        auto_now_add=True, verbose_name="Creation TimeStamp")
-    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
+        auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(auto_now=True, verbose_name="Last Update", blank=True)
     
 
     def __str__(self):
@@ -56,8 +57,8 @@ class Course(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     resources = models.CharField(max_length=127, null=True, blank=True)
     createdAt = models.DateTimeField(
-        auto_now_add=True, verbose_name="Creation TimeStamp")
-    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
+        auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(auto_now=True, verbose_name="Last Update", blank=True)
     
     def __str__(self):
         return self.courseName
@@ -69,13 +70,17 @@ class Course(models.Model):
 class Courses_in_Batch(models.Model):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.PROTECT)
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    year = models.PositiveSmallIntegerField(
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])
     semester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)])
-    year = models.PositiveSmallIntegerField(choices=[(1,1), (2,2), (3,3), (4,4), (5,5)])
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    courseStarts = models.DateField(null=True)
+    endCourse = models.DateField(null=True)
     createdAt = models.DateTimeField(
-        auto_now_add=True, verbose_name="Creation TimeStamp")
-    lastUpdate = models.DateField(auto_now=True, verbose_name="Last Update")
+        auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(
+        auto_now=True, verbose_name="Last Update", blank=True)
 
     def __str__(self):
         return self.batch.batchName + " " + self.program.programName
@@ -88,3 +93,18 @@ class Courses_in_Batch(models.Model):
     
     def departmentName(self):
         return self.department.departmentName
+
+    class Meta:
+        verbose_name = "Courses in batch"
+
+
+class Lesson(models.Model):
+    lessonName = models.CharField(max_length=255, verbose_name="Lesson Title")
+    lessonDescription = models.TextField(
+        null=True, verbose_name="Description", blank=True)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    resources = models.CharField(max_length=127, null=True, blank=True)
+    createdAt = models.DateTimeField(
+        auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(
+        auto_now=True, verbose_name="Last Update", blank=True)

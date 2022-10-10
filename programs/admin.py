@@ -103,23 +103,23 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'No_of_students', 'No_of_guests', 'No_of_lecturers', 'courseDescription', 'department', 'resources']
+    list_display = ['__str__', 'No_of_guests', 'No_of_lecturers', 'courseDescription', 'department', 'resources']
     list_editable = ['department']
     list_per_page = 10
     search_fields = ['courseName__istartswith']
     ordering = ['courseName']
     list_filter = ['department']
 
-    @admin.display(ordering="student_count")
-    def No_of_students(self, Course):
-        url = (
-            reverse('admin:school_users_student_changelist')
-            + '?'
-            + urlencode({
-                'course': str(Course.courseId)
-            })
-        )
-        return format_html('<a href="{}">{}</a>', url, Course.student_count)
+    # @admin.display(ordering="student_count")
+    # def No_of_students(self, Course):
+    #     url = (
+    #         reverse('admin:school_users_student_changelist')
+    #         + '?'
+    #         + urlencode({
+    #             'course': str(Course.courseId)
+    #         })
+    #     )
+    #     return format_html('<a href="{}">{}</a>', url, Course.student_count)
 
     @admin.display(ordering="guest_count")
     def No_of_guests(self, Course):
@@ -145,7 +145,7 @@ class CourseAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            student_count = Count('student'),
+            # student_count = Count('student'),
             guest_count = Count('guest'),
             lecturer_count = Count('lecturer')
         )
@@ -153,11 +153,12 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Courses_in_Batch)
 class CBAdmin(admin.ModelAdmin):
-    list_display = ['__str__','batch_name', 'program', 'course', 'department', 'semester']
+    list_display = ['__str__', 'course', 'department',
+                    'program', 'semester', 'batch_name']
     list_editable = ['semester']
     list_per_page = 10
-    search_fields = ['batch_name__istartswith']
-    list_filter = ['program', 'department']
+    # search_fields = ['__str__']
+    list_filter = ['program', 'department', 'batch']
 
     def batch_name(self, Courses_in_Batch):
         return Courses_in_Batch.batch.batchName
