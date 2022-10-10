@@ -87,12 +87,10 @@ class Student(models.Model):
     previousEducationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
     # shortCourses = models.ManyToManyField(Courses)
 
-    # Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
-    # academicYear = models.PositiveSmallIntegerField(choices=Years, default=2022, verbose_name="Academic Year")
-
+    currentYear = models.PositiveSmallIntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], default=2022, verbose_name="Academic Year")
     currentSemester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)], verbose_name="Current Semester")
     program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
-    department = models.ManyToManyField(Department)
+    department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
     # courses = models.ManyToManyField(Course)
     batch = models.ForeignKey(Batch, null=True, on_delete=models.SET_NULL)
     createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
