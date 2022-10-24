@@ -21,6 +21,7 @@ django-debug-toolbar = "==3.6.0"
 django-jazzmin = "==2.5.0"
 mysqlclient = "==2.1.1"
 djangorestframework = "*"
+django-filter = "*"
 
 [dev-packages]
 

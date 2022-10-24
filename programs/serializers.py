@@ -30,6 +30,7 @@ class CourseSerializer(serializers.ModelSerializer):
                     'department']
 
     department = DepartmentSerializer()
+    
 
 
 class CiBSerializer(serializers.ModelSerializer):

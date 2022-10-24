@@ -59,7 +59,7 @@ class Registrar(models.Model):
 class Student(models.Model):
     studentId = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=63, verbose_name="First Name")
-    middleName = models.CharField(max_length=63, verbose_name="Middle Name")
+    middleName = models.CharField(max_length=63, verbose_name="Middle Name", null=True, blank=True)
     lastName = models.CharField(max_length=63, verbose_name="Last Name")
     Gender = [
         ('M', "Male"),
@@ -89,10 +89,10 @@ class Student(models.Model):
 
     currentYear = models.PositiveSmallIntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], default=2022, verbose_name="Academic Year")
     currentSemester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)], verbose_name="Current Semester")
-    program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL)
-    department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
+    program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL, blank=True)
+    department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL, blank=True)
     # courses = models.ManyToManyField(Course)
-    batch = models.ForeignKey(Batch, null=True, on_delete=models.SET_NULL)
+    batch = models.ForeignKey(Batch, null=True, on_delete=models.SET_NULL, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
     lastUpdate = models.DateTimeField(
         auto_now=True, verbose_name="Last Update", blank=True)
