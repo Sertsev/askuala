@@ -43,7 +43,7 @@ class CIBViewSet(ModelViewSet):
     serializer_class = CiBSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['department_id', 'batch_id', 'program_id']
-    # search_fields = ['course_id']
+    search_fields = ['course__courseName']
 
     class Meta:
         verbose_name = "Courses in Batch"

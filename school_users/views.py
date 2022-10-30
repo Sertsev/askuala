@@ -6,7 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 """
     Here under all the get requests of all the users handled here
@@ -18,7 +18,9 @@ from rest_framework.filters import SearchFilter
 class RegistrarViewSet(ModelViewSet):
     queryset = Registrar.objects.all()
     serializer_class = RegistrarSerializer
-
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['firstName', 'middleName', 'lastName']
+    ordering_fields = ['firstName', 'lastName', 'lastUpdate']
 
 #  Lecturer users api view handlers
 @api_view(['GET', 'POST'])
@@ -53,70 +55,19 @@ def lecturer_info(request, id):
 class StudentViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['batch_id', 'program_id']
     search_fields = ['firstName', 'middleName', 'lastName']
-
-
-# @api_view(['GET', 'POST'])
-# def students_list(request):
-#     if request.method == 'GET':
-#         queryset = Student.objects.select_related('program', 'batch').all()
-#         serializer = StudentSerializer(queryset, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-#     elif request.method == 'POST':
-#         serialized = StudentRegisterSerializer(data=request.data)
-#         serialized.is_valid(raise_exception=True)
-#         serialized.save()
-#         return Response(serialized.validated_data, status=status.HTTP_201_CREATED)
-
-
-# @api_view(['GET', 'PATCH', 'DELETE'])
-# def student_info(request, id):
-#     student = get_object_or_404(Student, pk=id)
-#     if request.method == 'GET':
-#         serializer = StudentSerializer(student)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-#     elif request.method == 'PATCH':
-#         serialized = StudentRegisterSerializer(student, data=request.data, partial=True)
-#         serialized.is_valid(raise_exception=True)
-#         serialized.save()
-#         return Response(serialized.data)
-#     elif request.method == 'DELETE':
-#         student.delete()
-#         return Response({"Success": f"The student with an ID-{id} is successfully deleted."}, status.HTTP_204_NO_CONTENT)
-
-
+    ordering_fields = ['firstName', 'lastName', 'lastUpdate']
 
 #  Guest users api view handlers
-@api_view(['GET', 'POST'])
-def guests_list(request):
-    if request.method == 'GET':
-        queryset = get_list_or_404(Guest)
-        serializer = GuestSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        serialized = GuestSerializer(data=request.data)
-        serialized.is_valid(raise_exception=True)
-        serialized.save()
-        return Response(serialized.validated_data, status=status.HTTP_201_CREATED)
-
-
-@api_view(['GET', 'PATCH', 'DELETE'])
-def guest_info(request, id):
-    guest = get_object_or_404(Guest, pk=id)
-    if request.method == 'GET':
-        serializer = GuestSerializer(guest)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'PATCH':
-        serialized = GuestSerializer(guest, data=request.data, partial=True)
-        serialized.is_valid(raise_exception=True)
-        serialized.save()
-        return Response(serialized.data)
-    elif request.method == 'DELETE':
-        guest.delete()
-        return Response({"Success": f"The guest with an ID-{id} is successfully deleted."}, status.HTTP_204_NO_CONTENT)
-
+class GuestViewSet(ModelViewSet):
+    queryset = Guest.objects.all()
+    serializer_class = GuestSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['educationLevel', 'educationDepartment']
+    search_fields = ['firstName', 'middleName', 'lastName']
+    ordering_fields = ['firstName', 'lastName', 'lastUpdate']
 
 # To see all users
 @api_view()
