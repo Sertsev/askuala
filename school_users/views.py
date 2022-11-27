@@ -14,17 +14,9 @@ from rest_framework.filters import SearchFilter, OrderingFilter
         following functions
 """
 
-#  Registrar users api view handler
-class RegistrarViewSet(ModelViewSet):
-    queryset = Registrar.objects.all()
-    serializer_class = RegistrarSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['firstName', 'middleName', 'lastName']
-    ordering_fields = ['firstName', 'lastName', 'lastUpdate']
-
 #  Lecturer users api view handlers
 @api_view(['GET', 'POST'])
-def lecturers_list(request):
+def Registrars_list(request):
     if request.method == 'GET':
         queryset = get_list_or_404(Lecturer)
         serializer = LecturerSerializer(queryset, many=True)
@@ -36,7 +28,7 @@ def lecturers_list(request):
         return Response(serialized.validated_data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
-def lecturer_info(request, id):
+def Registrar_info(request, id):
     lecturer = get_object_or_404(Lecturer, pk=id)
     if request.method == 'GET':
         serializer = LecturerSerializer(lecturer)
@@ -50,6 +42,14 @@ def lecturer_info(request, id):
         lecturer.delete()
         return Response({"Success": f"The lecturer with an ID-{id} is successfully deleted."}, status.HTTP_204_NO_CONTENT)
 
+#  Registrar users api view handler
+class LecturerViewSet(ModelViewSet):
+    queryset = Lecturer.objects.all()
+    serializer_class = LecturerSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ["educationDepartment"]
+    search_fields = ['firstName', 'middleName', 'lastName']
+    ordering_fields = ['firstName', 'lastName', 'lastUpdate']
 
 #  Student users api view handler
 class StudentViewSet(ModelViewSet):

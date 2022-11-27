@@ -2,8 +2,13 @@ import os
 from datetime import datetime
 from django.db import models
 from programs.models import Course, Department, Batch, Program
+from django.contrib.auth.models import AbstractUser
 
 """ More info when filtering techniques re-watch 42 - 53 """
+
+class User(AbstractUser):
+    email = models.EmailField(max_length=63, unique=True)
+    pass
 
 def path_and_rename(instance, filename):
     upload_to = 'Images/'
