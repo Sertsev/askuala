@@ -1,15 +1,50 @@
 from django.contrib import admin, messages
 from django.utils.html import format_html, urlencode
-from school_users.models import Guest, Lecturer, Registrar, Student
+from .models import Guest, Lecturer, Registrar, Student, User, AssignCourses
+from django.contrib.auth.admin import UserAdmin as UA
+from django.utils.translation import gettext_lazy as _
+
+
+@admin.register(User)
+class UserAdmin(UA):
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "middle_name", "last_name", "gender", "email", "phone_number", "user_type")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
+
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("user_type", "username", "first_name", "middle_name", "last_name", "gender", "password1", "password2", "email", "phone_number"),
+            },
+        ),
+    )
+    list_display = ("username", "email", "first_name", "last_name", "is_staff", "user_type")
+    list_editable = ["user_type"]
+
 
 @admin.register(Guest)
 class GuestsAdmin(admin.ModelAdmin):
     actions = ['activate', 'deactivate']
-    list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
-    list_editable = ['active', 'educationDepartment']
+    list_display = ['full_name', 'educationLevel', 'educationDepartment', 'lastUpdate']
     list_per_page = 10
     list_filter = ['educationLevel', 'educationDepartment']
-    search_fields = ['firstName__istartswith', 'middleName__istartswith', 'lastName__istartswith',]
+    search_fields = ['user__first_name__istartswith', 'user__middle_name__istartswith', 'user__last_name__istartswith']
 
     @admin.action(description=('Deactivate selected guests'))
     def deactivate(self, request, queryset):
@@ -31,22 +66,32 @@ class GuestsAdmin(admin.ModelAdmin):
 @admin.register(Student)
 class StudentsAdmin(admin.ModelAdmin):
     prepopulated_fields = {
-        'documentLocation': ['firstName']
+        'documentLocation': ['user']
     }
     actions = ['activate', 'deactivate']
-    list_display = ['full_name', 'email', 'batch_name', 'current_program', 'active', 'verified', 'enrollment_type']
-    list_editable = ['active', 'enrollment_type']
+    list_display = ['full_name', 'batch_name',
+                    'current_program', 'current_dep', 'enrollment_type']
+    list_editable = ['enrollment_type']
     list_per_page = 10
-    list_filter = ['batch', 'program']
-    search_fields = ['firstName__startswith', 'middleName__startswith', 'lastName__istartswith']#__startswith', 'batch__istartswith', 'program__istartswith', 'enrollment_type__istartswith']
+    list_filter = ['batch', 'enrolledProgram', 'enrolledDepartment']
+    search_fields = ['user__first_name__istartswith',
+                        'user__middle_name__istartswith', 'user__last_name__istartswith']
 
-    @admin.display(ordering="program")
+    @admin.display(ordering="enrolledProgram")
     def current_program(self, Student):
         url = ( 
             '/admin/programs/program/'
-            + str(Student.program.programId)
+            + str(Student.enrolledProgram.programId)
             + '/change')
-        return format_html('<a href="{}">{}</a>', url, Student.program)
+        return format_html('<a href="{}">{}</a>', url, Student.enrolledProgram)
+
+    @admin.display(ordering="enrolledDepartment")
+    def current_dep(self, Student):
+        url = ( 
+            '/admin/programs/department/'
+            + str(Student.enrolledDepartment.departmentId)
+            + '/change')
+        return format_html('<a href="{}">{}</a>', url, Student.enrolledDepartment)
 
     @admin.display(ordering="batch")
     def batch_name(self, Student):
@@ -76,11 +121,12 @@ class StudentsAdmin(admin.ModelAdmin):
 @admin.register(Lecturer)
 class LecturersAdmin(admin.ModelAdmin):
     actions = ['activate', 'deactivate']
-    list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'verified', 'lastUpdate']
-    list_editable = ['educationDepartment', 'active']
+    list_display = ['full_name', 'educationLevel', 'educationDepartment', 'lastUpdate']
+    list_editable = ['educationDepartment']
     list_per_page = 10
     list_filter = ['educationLevel', 'educationDepartment']
-    search_fields = ['firstName__istartswith', 'middleName__istartswith', 'lastName__istartswith']
+    search_fields = ['user__first_name__istartswith',
+                        'user__middle_name__istartswith', 'user__last_name__istartswith']
 
     @admin.action(description=('Deactivate selected lecturers'))
     def deactivate(self, request, queryset):
@@ -102,11 +148,10 @@ class LecturersAdmin(admin.ModelAdmin):
 @admin.register(Registrar)
 class RegistrarsAdmin(admin.ModelAdmin):
     actions = ['activate', 'deactivate']
-    list_display = ['full_name', 'email', 'educationLevel', 'educationDepartment', 'active', 'lastUpdate']
-    list_editable = ['active']
+    list_display = ['full_name', 'educationLevel', 'educationDepartment', 'lastUpdate']
     list_per_page = 10
     list_filter = ['educationLevel']
-    search_fields = ['firstName__istartswith', 'middleName__istartswith', 'lastName__istartswith']
+    search_fields = ['user__first_name__istartswith', 'user__middle_name__istartswith', 'user__last_name__istartswith']
 
     @admin.action(description=('Deactivate selected registrars'))
     def deactivate(self, request, queryset):
@@ -123,3 +168,8 @@ class RegistrarsAdmin(admin.ModelAdmin):
             request,
             f'{update_count} number of students successfully Activated.',
             messages.SUCCESS)
+
+
+@admin.register(AssignCourses)
+class ACadmin(admin.ModelAdmin):
+    pass

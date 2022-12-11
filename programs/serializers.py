@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 
+# Batches json input or output extractor
 class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Batch
@@ -9,6 +10,13 @@ class BatchSerializer(serializers.ModelSerializer):
                     'batchEntryYear', 'batchGraduationYear']
 
 
+class SimpleBatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Batch
+        fields = ['batchId', 'batchName', 'batchProgram',]
+
+
+# Degree Programs Json input or output extractor
 class ProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model =  Program
@@ -16,13 +24,27 @@ class ProgramSerializer(serializers.ModelSerializer):
                     'programInfoLink']
 
 
+class SimpleProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  Program
+        fields = ['programId', 'programName', 'programDescription']
+
+
+# Departments json input or output extractor
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ['departmentId', 'departmentName', 'departmentDescription',
-                    'departmentHead']
+                    'departmentHead'] 
 
 
+class SimpleDepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ['departmentId', 'departmentName', 'departmentDescription',]
+
+
+# Courses json input or output extractor
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -30,9 +52,15 @@ class CourseSerializer(serializers.ModelSerializer):
                     'department']
 
     department = DepartmentSerializer()
-    
 
 
+class SimpleCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['courseId', 'courseName', 'courseDescription']
+
+
+# Courses in Batch json input or output extractor
 class CiBSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courses_in_Batch
@@ -45,6 +73,7 @@ class CiBSerializer(serializers.ModelSerializer):
     course = CourseSerializer()
 
 
+# Lessons json input or output extractor
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson

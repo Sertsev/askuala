@@ -7,10 +7,9 @@ rtr = DefaultRouter()
 rtr.register('lecturers', LecturerViewSet)
 rtr.register('students', StudentViewSet)
 rtr.register('guests', GuestViewSet)
+rtr.register('registrars', RegistrarViewSet)
+rtr.register('assigned/courses', ACviewSet)
 
 urlpatterns = [
     path('', include(rtr.urls)),
-    path('registrars', Registrars_list),
-    path('registrars/<int:id>', Registrar_info),
-    path('all', all_users),
 ]

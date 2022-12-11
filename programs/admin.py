@@ -30,80 +30,80 @@ class BatchAdmin(admin.ModelAdmin):
 
 @admin.register(Program)
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'Number_of_students', 'No_of_lecturers', 'programDescription', 'programInfoLink','resourceAddress']
+    list_display = ['__str__', 'programDescription', 'programInfoLink','resourceAddress']
     list_editable = ['programInfoLink'] 
     list_per_page = 10
     search_fields = ['programName__istartswith']
     ordering = ['programName']
 
-    @admin.display(ordering="student_count")
-    def Number_of_students(self, Program):
-        url = (
-            reverse('admin:school_users_student_changelist')
-            + '?'
-            + urlencode({
-                'program': str(Program.programId)
-            })
-        )
-        return format_html('<a href="{}">{}</a>', url, Program.student_count)
+    # @admin.display(ordering="student_count")
+    # def Number_of_students(self, Program):
+    #     url = (
+    #         reverse('admin:school_users_student_changelist')
+    #         + '?'
+    #         + urlencode({
+    #             'program': str(Program.programId)
+    #         })
+    #     )
+    #     return format_html('<a href="{}">{}</a>', url, Program.student_count)
 
-    @admin.display(ordering="lecturer_count")
-    def No_of_lecturers(self, Program):
-        url = (
-            reverse('admin:school_users_lecturer_changelist')
-            + '?'
-            + urlencode({
-                'program': str(Program.programId)
-            })
-        )
-        return format_html('<a href="{}">{}</a>', url, Program.lecturer_count)
+    # @admin.display(ordering="lecturer_count")
+    # def No_of_lecturers(self, Program):
+    #     url = (
+    #         reverse('admin:school_users_lecturer_changelist')
+    #         + '?'
+    #         + urlencode({
+    #             'program': str(Program.programId)
+    #         })
+    #     )
+    #     return format_html('<a href="{}">{}</a>', url, Program.lecturer_count)
 
-    def get_queryset(self, request):
-        return super().get_queryset(request).annotate(
-            student_count = Count('student'),
-            lecturer_count = Count('lecturer'),
-        )
+    # def get_queryset(self, request):
+    #     return super().get_queryset(request).annotate(
+    #         student_count = Count('student'),
+    #         lecturer_count = Count('lecturer'),
+    #     )
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'No_of_students', 'No_of_lecturers', 'departmentDescription', 'departmentHead', 'resources']
+    list_display = ['__str__', 'departmentDescription', 'departmentHead', 'resources']
     list_editable = ['departmentHead'] 
     list_per_page = 10
     search_fields = ['departmentName__istartswith', 'departmentHead__istartswith']
     ordering = ['departmentName']
 
-    @admin.display(ordering="student_count")
-    def No_of_students(self, Department):
-        url = (
-            reverse('admin:school_users_student_changelist')
-            + '?'
-            + urlencode({
-                'department': str(Department.departmentId)
-            })
-        )
-        return format_html('<a href="{}">{}</a>', url, Department.student_count)
+    # @admin.display(ordering="student_count")
+    # def No_of_students(self, Department):
+    #     url = (
+    #         reverse('admin:school_users_student_changelist')
+    #         + '?'
+    #         + urlencode({
+    #             'department': str(Department.departmentId)
+    #         })
+    #     )
+    #     return format_html('<a href="{}">{}</a>', url, Department.student_count)
 
-    @admin.display(ordering="lecturer_count")
-    def No_of_lecturers(self, Department):
-        url = (
-            reverse('admin:school_users_lecturer_changelist')
-            + '?'
-            + urlencode({
-                'department': str(Department.departmentId)
-            })
-        )
-        return format_html('<a href="{}">{}</a>', url, Department.lecturer_count)
+    # @admin.display(ordering="lecturer_count")
+    # def No_of_lecturers(self, Department):
+    #     url = (
+    #         reverse('admin:school_users_lecturer_changelist')
+    #         + '?'
+    #         + urlencode({
+    #             'department': str(Department.departmentId)
+    #         })
+    #     )
+    #     return format_html('<a href="{}">{}</a>', url, Department.lecturer_count)
 
-    def get_queryset(self, request):
-        return super().get_queryset(request).annotate(
-            student_count = Count('student'),
-            lecturer_count = Count('lecturer')
-        )
+    # def get_queryset(self, request):
+    #     return super().get_queryset(request).annotate(
+    #         student_count = Count('student'),
+    #         lecturer_count = Count('lecturer')
+    #     )
         
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'No_of_guests', 'No_of_lecturers', 'courseDescription', 'department', 'resources']
+    list_display = ['__str__', 'courseDescription', 'department', 'resources']
     list_editable = ['department']
     list_per_page = 10
     search_fields = ['courseName__istartswith']
@@ -121,16 +121,16 @@ class CourseAdmin(admin.ModelAdmin):
     #     )
     #     return format_html('<a href="{}">{}</a>', url, Course.student_count)
 
-    @admin.display(ordering="guest_count")
-    def No_of_guests(self, Course):
-        url = (
-            reverse('admin:school_users_guest_changelist')
-            + '?'
-            + urlencode({
-                'course': str(Course.courseId)
-            })
-        )
-        return format_html('<a href="{}">{}</a>', url, Course.guest_count)
+    # @admin.display(ordering="guest_count")
+    # def No_of_guests(self, Course):
+    #     url = (
+    #         reverse('admin:school_users_guest_changelist')
+    #         + '?'
+    #         + urlencode({
+    #             'course': str(Course.courseId)
+    #         })
+    #     )
+    #     return format_html('<a href="{}">{}</a>', url, Course.guest_count)
 
     @admin.display(ordering="lecturer_count")
     def No_of_lecturers(self, Course):
@@ -147,7 +147,7 @@ class CourseAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(
             # student_count = Count('student'),
             guest_count = Count('guest'),
-            lecturer_count = Count('lecturer')
+            # lecturer_count = Count('lecturer')
         )
 
 

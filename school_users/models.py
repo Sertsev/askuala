@@ -1,14 +1,10 @@
 import os
-from datetime import datetime
 from django.db import models
 from programs.models import Course, Department, Batch, Program
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 """ More info when filtering techniques re-watch 42 - 53 """
-
-class User(AbstractUser):
-    email = models.EmailField(max_length=63, unique=True)
-    pass
 
 def path_and_rename(instance, filename):
     upload_to = 'Images/'
@@ -18,197 +14,344 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 
-class Registrar(models.Model):
-    registrarId = models.AutoField(primary_key=True, verbose_name="ID")
-    firstName = models.CharField(max_length=63, verbose_name="First Name")
-    middleName = models.CharField(max_length=63, verbose_name="Middle Name")
-    lastName = models.CharField(max_length=63, verbose_name="Last Name")
+class User(AbstractUser):
+    middle_name = models.CharField(_("Middle Name"), max_length=150, blank=True)
+    email = models.EmailField(max_length=63, unique=True)
     Gender = [
         ('M', "Male"),
         ('F', "Female"),
     ]
     gender = models.CharField(max_length=1, choices=Gender)
+    phone_number = models.CharField(_("Phone Number"), max_length=32, unique=True)
+    user_type = models.CharField(max_length=23, default='guest',
+                choices=[("guest", "guest"), 
+                        ("student", "student"), 
+                        ("lecturer", "lecturer"), 
+                        ("registrar", "registrar")
+                        ])
 
-    email = models.EmailField(max_length=63, unique=True)
-    password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+
+class Guest(models.Model):
+    guestId = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     birthdate = models.DateField(null=True, blank=True)
+
+    """
+        A user physical location
+    """
     citizenship = models.CharField(max_length=127, null=True, blank=True)
-    country = models.CharField(max_length=127, null=True, blank=True)
+    currentCountry = models.CharField(max_length=127, null=True, blank=True)
     city = models.CharField(max_length=63, null=True, blank=True)
+    address = models.CharField(max_length=127, blank=True, null=True)
 
-    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    """
+        A list of degree programs available in the world
+    """
     progs = [
-        (x, x) for x in Program.objects.values_list('programName', flat=True)
-        ]
-    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
-    deps = [
-        (x, x) for x in Department.objects.values_list('departmentName', flat=True)
-        ]
-    educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Department")
+        ('Bachelor of Arts', "BA"),
+        ('Bachelor of Business Administration', "BBA"),
+        ('Bachelor of Fine Arts', "BFA"),
+        ('Bachelor of Science', "BS"),
+        ('Bachelor of Engineering', "B.Eng."),
+        ('Master of Science', "MS"),
+        ('Master of Arts', "MA"),
+        ('Master of Business Administration', "MBA"),
+        ('Doctor of philosophy', "Ph.D."),
+        ('Other', 'Other')
+    ]
+    educationLevel = models.CharField(
+        max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
 
+    """
+        A list of degree departments available in the world
+    """
+    deps = [
+        ('Theatrical Science', "Theatrical Science"),
+        ('Business Administration', "Business Administration"),
+        ('Health Informatics', "Health Informatics"),
+        ('Public Health', "Public Health"),
+        ('Electrical Engineering', "Electrical Engineering"),
+        ('Computer Science', "Computer Science"),
+        ('Accounting', "Accounting"),
+        ('Marketing Management', "Marketing Management"),
+        ('Software Engineering', "Software Engineering"),
+        ('Other', 'Other')
+    ]
+    educationDepartment = models.CharField(
+        max_length=127, choices=deps, verbose_name="Department")
+
+    """
+        The user documents location on the server
+    """
+    profilePicDir = models.ImageField(
+        upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    documentLocation = models.CharField(
+        max_length=511, null=True, verbose_name="Documents Location", blank=True)
+
+    """
+        Time stamps of the registered object
+    """
     createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
     lastUpdate = models.DateTimeField(
         auto_now=True, verbose_name="Last Update", blank=True)
-    active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.firstName
+        return self.user.username
 
     def full_name(self):
-        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
+        return self.user.first_name + ' ' + self.user.middle_name + ' ' + self.user.last_name
 
     class Meta:
-        ordering = ['firstName', 'middleName', 'lastName']
+        ordering = ['user__first_name', 'user__middle_name', 'user__last_name']
+
+
+class Registrar(models.Model):
+    registrarId = models.AutoField(primary_key=True, verbose_name="ID")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    birthdate = models.DateField(null=True, blank=True)
+
+    """
+        A user physical location
+    """
+    citizenship = models.CharField(max_length=127, null=True, blank=True)
+    currentCountry = models.CharField(max_length=127, null=True, blank=True)
+    city = models.CharField(max_length=63, null=True, blank=True)
+    address = models.CharField(max_length=127, blank=True, null=True)
+
+    """
+        A list of degree programs available in the world
+    """
+    progs = [
+        ('Bachelor of Arts', "BA"),
+        ('Bachelor of Business Administration', "BBA"),
+        ('Bachelor of Fine Arts', "BFA"),
+        ('Bachelor of Science', "BS"),
+        ('Bachelor of Engineering', "B.Eng."),
+        ('Master of Science', "MS"),
+        ('Master of Arts', "MA"),
+        ('Master of Business Administration', "MBA"),
+        ('Doctor of philosophy', "Ph.D."),
+        ('Other', 'Other')
+    ]
+    educationLevel = models.CharField(
+        max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
+
+    """
+        A list of degree departments available in the world
+    """
+    deps = [
+        ('Theatrical Science', "Theatrical Science"),
+        ('Business Administration', "Business Administration"),
+        ('Health Informatics', "Health Informatics"),
+        ('Public Health', "Public Health"),
+        ('Electrical Engineering', "Electrical Engineering"),
+        ('Computer Science', "Computer Science"),
+        ('Accounting', "Accounting"),
+        ('Marketing Management', "Marketing Management"),
+        ('Software Engineering', "Software Engineering"),
+        ('Other', 'Other')
+    ]
+    educationDepartment = models.CharField(
+        max_length=127, choices=deps, verbose_name="Department")
+
+    """
+        The user documents location on the server
+    """
+    # profilePicDir = models.ImageField(
+    #     # upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    documentLocation = models.CharField(
+        max_length=511, null=True, verbose_name="Documents Location", blank=True)
+    
+    """
+        Time stamps of the registered object
+    """
+    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
+    lastUpdate = models.DateTimeField(
+        auto_now=True, verbose_name="Last Update", blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    def full_name(self):
+        return self.user.first_name + ' ' + self.user.middle_name + ' ' + self.user.last_name
+
+    class Meta:
+        ordering = ['user__first_name', 'user__middle_name', 'user__last_name']
+
 
 class Student(models.Model):
-    studentId = models.AutoField(primary_key=True)
-    firstName = models.CharField(max_length=63, verbose_name="First Name")
-    middleName = models.CharField(max_length=63, verbose_name="Middle Name", null=True, blank=True)
-    lastName = models.CharField(max_length=63, verbose_name="Last Name")
-    Gender = [
-        ('M', "Male"),
-        ('F', "Female"),
-    ]
-    gender = models.CharField(max_length=1, choices=Gender)
-
-    email = models.EmailField(max_length=63, unique=True)
-    password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+    studentId=models.AutoField(primary_key=True, verbose_name="ID")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     birthdate = models.DateField(null=True, blank=True)
-    citizenship = models.CharField(max_length=127, null=True, blank=True)
-    country = models.CharField(max_length=127, null=True, blank=True)
-    city = models.CharField(max_length=63, null=True, blank=True)
 
-    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
-    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    """
+        A user physical location
+    """
+    citizenship = models.CharField(max_length=127, null=True, blank=True)
+    currentCountry = models.CharField(max_length=127, null=True, blank=True)
+    city = models.CharField(max_length=63, null=True, blank=True)
+    address = models.CharField(max_length=127, blank=True, null=True)
+
+    """
+        A list of degree programs available in the world
+    """
     progs = [
-        (x, x) for x in Program.objects.values_list('programName', flat=True)
-        ]
-    previousEducationLevel = models.CharField(max_length=127, choices=progs, verbose_name="Previous Education Level")
+        ('Bachelor of Arts', "BA"),
+        ('Bachelor of Business Administration', "BBA"),
+        ('Bachelor of Fine Arts', "BFA"),
+        ('Bachelor of Science', "BS"),
+        ('Bachelor of Engineering', "B.Eng."),
+        ('Master of Science', "MS"),
+        ('Master of Arts', "MA"),
+        ('Master of Business Administration', "MBA"),
+        ('Doctor of philosophy', "Ph.D."),
+        ('Other', 'Other')
+    ]
+    educationLevel = models.CharField(
+        max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
+
+    """
+        A list of degree departments available in the world
+    """
     deps = [
-        (x, x) for x in Department.objects.values_list('departmentName', flat=True)
-        ]
-    previousEducationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
-    # shortCourses = models.ManyToManyField(Courses)
+        ('Theatrical Science', "Theatrical Science"),
+        ('Business Administration', "Business Administration"),
+        ('Health Informatics', "Health Informatics"),
+        ('Public Health', "Public Health"),
+        ('Electrical Engineering', "Electrical Engineering"),
+        ('Computer Science', "Computer Science"),
+        ('Accounting', "Accounting"),
+        ('Marketing Management', "Marketing Management"),
+        ('Software Engineering', "Software Engineering"),
+        ('Other', 'Other')
+    ]
+    educationDepartment = models.CharField(
+        max_length=127, choices=deps, verbose_name="Department")
+
+    """
+        The user documents location on the server
+    """
+    # profilePicDir = models.ImageField(
+    #     upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    documentLocation = models.CharField(
+        max_length=511, null=True, verbose_name="Documents Location", blank=True)
 
     currentYear = models.PositiveSmallIntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], default=2022, verbose_name="Academic Year")
     currentSemester = models.PositiveSmallIntegerField(choices=[(1,1), (2,2)], verbose_name="Current Semester")
-    program = models.ForeignKey(Program, null=True, on_delete=models.SET_NULL, blank=True)
-    department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL, blank=True)
-    # courses = models.ManyToManyField(Course)
-    batch = models.ForeignKey(Batch, null=True, on_delete=models.SET_NULL, blank=True)
-    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
+    enrolledProgram = models.ForeignKey(Program, on_delete=models.PROTECT)
+    enrolledDepartment = models.ForeignKey(Department, on_delete=models.PROTECT)
+    batch = models.ForeignKey(Batch, on_delete=models.PROTECT)
+
+    """
+        Time stamps of the registered object
+    """
+    createdAt = models.DateTimeField(
+        auto_now_add=True, verbose_name="Account Creation Date", blank=True)
     lastUpdate = models.DateTimeField(
         auto_now=True, verbose_name="Last Update", blank=True)
-    verified = models.BooleanField(default=False)
-    active = models.BooleanField(default=False)
 
     enrollments = [
         ("Regular", "Regular"),
-        ("Online","Online")
+        ("Online", "Online")
     ]
-    enrollment_type = models.CharField(max_length=23, choices=enrollments, default="Regular", verbose_name="Enrollment")
+    enrollment_type = models.CharField(
+        max_length=23, choices=enrollments, default="Regular", verbose_name="Enrollment")
 
     def __str__(self):
-        return self.firstName
+        return self.user.username
     
     def full_name(self):
-        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
+        return self.user.first_name + ' ' + self.user.middle_name + ' ' + self.user.last_name
 
     class Meta:
-        ordering = ['firstName', 'middleName', 'lastName']
+        ordering = ['user__first_name', 'user__middle_name', 'user__last_name']
 
 
 class Lecturer(models.Model):
     lecturerId = models.AutoField(primary_key=True)
-    firstName = models.CharField(max_length=63, verbose_name="First Name")
-    middleName = models.CharField(max_length=63, verbose_name="Middle Name")
-    lastName = models.CharField(max_length=63, verbose_name="Last Name")
-    Gender = [
-        ('M', "Male"),
-        ('F', "Female"),
-    ]
-    gender = models.CharField(max_length=1, choices=Gender)
-
-    email = models.EmailField(max_length=63, unique=True)
-    password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     birthdate = models.DateField(null=True, blank=True)
+
+    """
+        A user physical location
+    """
     citizenship = models.CharField(max_length=127, null=True, blank=True)
-    country = models.CharField(max_length=127, null=True, blank=True)
+    currentCountry = models.CharField(max_length=127, null=True, blank=True)
     city = models.CharField(max_length=63, null=True, blank=True)
+    address = models.CharField(max_length=127, blank=True, null=True)
 
-    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
-    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    """
+        A list of degree programs available in the world
+    """
     progs = [
-        (x, x) for x in Program.objects.values_list('programName', flat=True)
-        ]
-    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
-    deps = [
-        (x, x) for x in Department.objects.values_list('departmentName', flat=True)
-        ]
-    educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Department")
-
-    program = models.ManyToManyField(Program)
-    department = models.ManyToManyField(Department)
-    courses = models.ManyToManyField(Course)
-    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
-    lastUpdate = models.DateTimeField(
-        auto_now=True, verbose_name="Last Update", blank=True)
-    verified = models.BooleanField(default=False)
-    active = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.firstName
-
-    def full_name(self):
-        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
-
-    class Meta:
-        ordering = ['firstName', 'middleName', 'lastName']
-
-class Guest(models.Model):
-    guestId = models.AutoField(primary_key=True)
-    firstName = models.CharField(max_length=63, verbose_name="First Name")
-    middleName = models.CharField(max_length=63, verbose_name="Middle Name")
-    lastName = models.CharField(max_length=63, verbose_name="Last Name")
-    Gender = [
-        ('M', "Male"),
-        ('F', "Female"),
+        ('Bachelor of Arts', "BA"),
+        ('Bachelor of Business Administration', "BBA"),
+        ('Bachelor of Fine Arts', "BFA"),
+        ('Bachelor of Science', "BS"),
+        ('Bachelor of Engineering', "B.Eng."),
+        ('Master of Science', "MS"),
+        ('Master of Arts', "MA"),
+        ('Master of Business Administration', "MBA"),
+        ('Doctor of philosophy', "Ph.D."),
+        ('Other', 'Other')
     ]
-    gender = models.CharField(max_length=1, choices=Gender)
+    educationLevel = models.CharField(
+        max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
 
-    email = models.EmailField(max_length=63, unique=True)
-    password = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=32, null=True, verbose_name="Phone Number", blank=True)
-    birthdate = models.DateField(null=True, blank=True)
-    citizenship = models.CharField(max_length=127, default='Ethiopian', blank=True)
-    country = models.CharField(max_length=127, default='Ethiopia', blank=True)
-    city = models.CharField(max_length=63, default='Addis Ababa', blank=True)
-
-    documentLocation = models.CharField(max_length=511, null=True, verbose_name="Documents Location", blank=True)
-    profilePicDir = models.ImageField(upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
-    progs = [
-        (x, x) for x in Program.objects.values_list('programName', flat=True)
-        ]
-    educationLevel = models.CharField(max_length=127, default='Bachelor', choices=progs, verbose_name="Education Level")
+    """
+        A list of degree departments available in the world
+    """
     deps = [
-        (x, x) for x in Department.objects.values_list('departmentName', flat=True)
-        ]
-    educationDepartment = models.CharField(max_length=127, choices=deps, verbose_name="Previous Study")
-    shortCourses = models.ManyToManyField(Course)
+        ('Theatrical Science', "Theatrical Science"),
+        ('Business Administration', "Business Administration"),
+        ('Health Informatics', "Health Informatics"),
+        ('Public Health', "Public Health"),
+        ('Electrical Engineering', "Electrical Engineering"),
+        ('Computer Science', "Computer Science"),
+        ('Accounting', "Accounting"),
+        ('Marketing Management', "Marketing Management"),
+        ('Software Engineering', "Software Engineering"),
+        ('Other', 'Other')
+    ]
+    educationDepartment = models.CharField(
+        max_length=127, choices=deps, verbose_name="Department")
 
-    createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Account Creation Date", blank=True)
+    """
+        The user documents location on the server
+    """
+    # profilePicDir = models.ImageField(
+    #     upload_to=path_and_rename, null=True, verbose_name="Profile Photo Directory", blank=True)
+    documentLocation = models.CharField(
+        max_length=511, null=True, verbose_name="Documents Location", blank=True)
+
+    """
+        Time stamps of the registered object
+    """
+    createdAt = models.DateTimeField(
+        auto_now_add=True, verbose_name="Account Creation Date", blank=True)
     lastUpdate = models.DateTimeField(
         auto_now=True, verbose_name="Last Update", blank=True)
-    active = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.firstName
+        return self.user.username
 
     def full_name(self):
-        return self.firstName + ' ' + self.middleName + ' ' + self.lastName
+        return self.user.first_name + ' ' + self.user.middle_name + ' ' + self.user.last_name
 
     class Meta:
-        ordering = ['firstName', 'middleName', 'lastName']
+        ordering = ['user__first_name', 'user__middle_name', 'user__last_name']
+
+
+class AssignCourses(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    lecturer = models.ForeignKey(Lecturer, on_delete=models.PROTECT)
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    registrar = models.ForeignKey(Registrar, on_delete=models.DO_NOTHING)
+    course_type = models.CharField(max_length=127, choices=[('Short Courses', 'Short Courses'), ('Courses', 'Course')], default='Courses')
+    """
+        Time stamps of the registered object
+    """
+    createdAt = models.DateTimeField(
+        auto_now_add=True, verbose_name="Account Creation Date", blank=True)
+    lastUpdate = models.DateTimeField(auto_now=True, verbose_name="Last Update", blank=True)

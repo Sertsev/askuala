@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+from datetime import timedelta
 import os
 from pathlib import Path
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'django_filters',
     'rest_framework',
+    'djoser',
     'programs',
     'school_users',
     'assessment',
@@ -154,8 +156,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':  ('rest_framework_simplejwt.authentication.JWTAuthentication',),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+}
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'askuala.serializers.UserCreateSerializer',
+        'current_user': 'askuala.serializers.UserSerializer'
+    }
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'SIGNING_KEY': SECRET_KEY,
 }
 
 JAZZMIN_SETTINGS = {
@@ -246,12 +263,12 @@ JAZZMIN_SETTINGS = {
     # for the full list of 5.13.0 free icon classes
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
         "auth.Group": "fa fa-box",
         "school_users.Student": "fa fa-user-graduate",
         "school_users.Guest": "fa fa-users",
         "school_users.Registrar": "fa fa-user-tie",
         "school_users.Lecturer": "fa fa-chalkboard-teacher",
+        "school_users.user": "fas fa-user",
         "programs.Batch": "fa fa-briefcase",
         "programs.Program": "fa fa-folder",
         "programs.Department": "fa fa-layer-group",
@@ -296,3 +313,5 @@ JAZZMIN_SETTINGS = {
 JAZZMIN_UI_TWEAKS = {
     "theme": "default",
 }
+
+AUTH_USER_MODEL = 'school_users.User'

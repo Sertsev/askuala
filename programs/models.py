@@ -23,7 +23,7 @@ class Program(models.Model):
     programId = models.AutoField(primary_key=True)
     programName = models.CharField(max_length=63, verbose_name="Program Name")
     programDescription = models.CharField(max_length=63, null=True, verbose_name="Title", blank=True)
-    programInfoLink = models.CharField(max_length=255, null=True, verbose_name="More Information Link", blank=True)
+    programInfoLink = models.CharField(max_length=255, default='Not set', verbose_name="More Information Link", blank=True)
     resourceAddress = models.CharField(max_length=127, null=True, verbose_name="Resource Address", blank=True)
     createdAt = models.DateTimeField(
         auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
@@ -37,6 +37,8 @@ class Department(models.Model):
     departmentId = models.AutoField(primary_key=True)
     departmentName = models.CharField(max_length=127, verbose_name="Department Name")
     departmentDescription = models.TextField(null=True, verbose_name="Description", blank=True)
+    departmentInfoLink = models.CharField(
+        max_length=255, default='Not set', verbose_name="More Information Link", blank=True)
     program = models.ManyToManyField(Program)
     departmentHead = models.CharField(max_length=127, null=True, blank=True, verbose_name="Department Head")
     # departmentHead = models.ForeignKey('school_users.Lecturer', on_delete=models.PROTECT)

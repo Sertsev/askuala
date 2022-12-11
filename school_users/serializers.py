@@ -1,79 +1,93 @@
 from rest_framework import serializers
-
-from programs.serializers import BatchSerializer, ProgramSerializer
+from programs.serializers import SimpleBatchSerializer, SimpleProgramSerializer, SimpleDepartmentSerializer, SimpleCourseSerializer
+from askuala.serializers import SimpleUserSerializer
 from .models import *
 
 
+# Registrar user json input or output extractor
 class RegistrarSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
     class Meta:
         model = Registrar
-        fields = ['registrarId', 'firstName', 'middleName',
-                    'lastName', 'gender', 'email',
-                    'phoneNumber', 'birthdate', 'citizenship',
-                    'country', 'city', 'educationLevel', 
-                    'educationDepartment', 'createdAt', 'lastUpdate']
-
-    def create(self, validated_data):
-        registrar = Registrar(**validated_data)
-        registrar.password = 'encrypted'
-        return super().create(validated_data)
+        fields = ['registrarId', 'user', 'birthdate', 
+                    'citizenship', 'currentCountry', 'city', 'address',
+                    'educationLevel', 'educationDepartment', 
+                    'createdAt', 'lastUpdate']
 
 
+class SimpleRegistrarSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
+
+    class Meta:
+        model = Registrar
+        fields = ['registrarId', 'user']
+
+
+# Lecturer user json input or output extractor
 class LecturerSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
     class Meta:
         model = Lecturer
-        fields = ['lecturerId', 'firstName', 'middleName',
-                    'lastName', 'gender', 'email', #'documentLocation',
-                    'phoneNumber', 'birthdate', 'citizenship',
-                    'country', 'city', 'educationLevel',
-                    'educationDepartment', 'createdAt', 'lastUpdate']
-
-    def create(self, validated_data):
-        lecturer = Lecturer(**validated_data)
-        lecturer.password = 'encrypted'
-        return super().create(validated_data)
+        fields = ['lecturerId', 'user', 'documentLocation',
+                    'citizenship', 'currentCountry', 'city', 'address',
+                    'educationLevel', 'educationDepartment', 
+                    'createdAt', 'lastUpdate']
 
 
+class SimpleLecturerSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
+
+    class Meta:
+        model = Lecturer
+        fields = ['lecturerId', 'user']
+
+
+# Student user json input or output extractor
 class StudentSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
+    enrolledProgram = SimpleProgramSerializer(read_only=True)
+    enrolledDepartment = SimpleDepartmentSerializer(read_only=True)
+    batch = SimpleBatchSerializer(read_only=True)
     class Meta:
         model = Student
-        fields = ['studentId', 'firstName', 'middleName', 'batch',
-                    'lastName', 'gender', 'email', #'documentLocation',
-                    'phoneNumber', 'birthdate', 'citizenship', 'currentSemester',
-                    'country', 'city', 'program', 'previousEducationLevel',
-                    'previousEducationDepartment', 'createdAt', 'lastUpdate', 'verified']
-    
-    program = ProgramSerializer()
-    batch = BatchSerializer()
+        fields = ['studentId',  'user', 'documentLocation', 'birthdate', 
+                    'citizenship', 'currentCountry', 'city', 'address',
+                    'batch', 'currentYear', 'currentSemester', 'enrolledProgram', 'enrolledDepartment',
+                    'educationLevel', 'educationDepartment', 'enrollment_type',
+                    'createdAt', 'lastUpdate']
 
 
-class StudentRegisterSerializer(serializers.ModelSerializer):
+class SimpleStudentSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
+    enrolledProgram = SimpleProgramSerializer(read_only=True)
+    enrolledDepartment = SimpleDepartmentSerializer(read_only=True)
+    batch = SimpleBatchSerializer(read_only=True)
+
     class Meta:
         model = Student
-        fields = ['studentId', 'firstName', 'middleName', 'batch',
-                    'lastName', 'gender', 'email', #'documentLocation',
-                    'phoneNumber', 'birthdate', 'citizenship', 'currentSemester',
-                    'country', 'city', 'program', 'previousEducationLevel',
-                    'previousEducationDepartment', 'createdAt', 'lastUpdate', 'verified']
-
-    def create(self, validated_data):
-        student = Student(**validated_data)
-        student.password = 'encrypted'
-        student.save()
-        return student
+        fields = ['studentId',  'user', 'batch', 'currentYear', 'currentSemester', 
+                    'enrolledProgram', 'enrolledDepartment', 'enrollment_type']
 
 
+# Guest user json input or output extractor
 class GuestSerializer(serializers.ModelSerializer):
+    user = SimpleUserSerializer(read_only=True)
     class Meta:
         model = Guest
-        fields = ['guestId', 'firstName', 'middleName',
-                    'lastName', 'gender', 'email', #'documentLocation',
-                    'phoneNumber', 'birthdate', 'citizenship',
-                    'country', 'city', 'educationLevel',
-                    'educationDepartment', 'createdAt', 'lastUpdate']
+        fields = ['guestId', 'user', 'birthdate', 'citizenship',
+                    'currentCountry', 'city', 'address', 'educationLevel',
+                    'educationDepartment', 'documentLocation', 
+                    'createdAt', 'lastUpdate']
 
-    def create(self, validated_data):
-        guest = Guest(**validated_data)
-        guest.password = 'encrypted'
-        return super().create(validated_data)
+
+class ACserializer(serializers.ModelSerializer):
+    # course = SimpleCourseSerializer()
+    # lecturer = SimpleLecturerSerializer()
+    # batch = SimpleBatchSerializer()
+    # department = SimpleDepartmentSerializer()
+    registrar = SimpleRegistrarSerializer(read_only=True)
+    class Meta:
+        model = AssignCourses
+        fields = ['id', 'course', 'lecturer', 'batch', 'department', 'registrar', 
+                    'createdAt', 'lastUpdate']
 
