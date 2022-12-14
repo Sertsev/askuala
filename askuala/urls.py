@@ -27,8 +27,9 @@ admin.site.site_title = "ASKUALA Site Administration"
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
+    path('api-root', include('rest_framework.urls')),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.jwt')),
     path('', index, name='index'),
     path('api/user/', include('school_users.urls')),
     path('api/programs/', include('programs.urls')),

@@ -345,9 +345,8 @@ class Lecturer(models.Model):
 class AssignCourses(models.Model):
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     lecturer = models.ForeignKey(Lecturer, on_delete=models.PROTECT)
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    registrar = models.ForeignKey(Registrar, on_delete=models.DO_NOTHING)
+    registrar = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     course_type = models.CharField(max_length=127, choices=[('Short Courses', 'Short Courses'), ('Courses', 'Course')], default='Courses')
     """
         Time stamps of the registered object
@@ -355,3 +354,6 @@ class AssignCourses(models.Model):
     createdAt = models.DateTimeField(
         auto_now_add=True, verbose_name="Account Creation Date", blank=True)
     lastUpdate = models.DateTimeField(auto_now=True, verbose_name="Last Update", blank=True)
+
+    def __str__(self):
+        return self.course.courseName

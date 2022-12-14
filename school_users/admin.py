@@ -172,4 +172,6 @@ class RegistrarsAdmin(admin.ModelAdmin):
 
 @admin.register(AssignCourses)
 class ACadmin(admin.ModelAdmin):
-    pass
+    list_display = ['__str__', 'lecturer', 'course_type', 'lastUpdate']
+    list_per_page = 10
+    list_filter = ['course']

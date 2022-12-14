@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from programs.serializers import SimpleBatchSerializer, SimpleProgramSerializer, SimpleDepartmentSerializer, SimpleCourseSerializer
+from programs.serializers import SimpleBatchSerializer, SimpleProgramSerializer, SimpleDepartmentSerializer, CourseSerializer
 from askuala.serializers import SimpleUserSerializer
 from .models import *
 
@@ -81,13 +81,30 @@ class GuestSerializer(serializers.ModelSerializer):
 
 
 class ACserializer(serializers.ModelSerializer):
-    # course = SimpleCourseSerializer()
-    # lecturer = SimpleLecturerSerializer()
-    # batch = SimpleBatchSerializer()
-    # department = SimpleDepartmentSerializer()
-    registrar = SimpleRegistrarSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
+    lecturer = SimpleLecturerSerializer(read_only=True)
+    department = SimpleDepartmentSerializer(read_only=True)
+    registrar = SimpleUserSerializer(read_only=True)
+
     class Meta:
         model = AssignCourses
-        fields = ['id', 'course', 'lecturer', 'batch', 'department', 'registrar', 
+        fields = ['id', 'course', 'lecturer', 'department', 'registrar', 'course_type',
                     'createdAt', 'lastUpdate']
 
+
+class ACcreateSerializer(serializers.ModelSerializer):
+    registrar = SimpleUserSerializer(read_only=True)
+    class Meta:
+        model = AssignCourses
+        fields = ['id', 'course', 'lecturer', 'department', 'registrar', 'course_type',
+                    'createdAt', 'lastUpdate']
+
+
+class AClecturerSerializer(serializers.ModelSerializer):
+    registrar = SimpleUserSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
+    registrar = SimpleUserSerializer(read_only=True)
+    class Meta:
+        model = AssignCourses
+        fields = ['id', 'course', 'lecturer', 'department', 'registrar', 'course_type',
+                    'createdAt', 'lastUpdate']

@@ -8,7 +8,7 @@ rtr.register('lecturers', LecturerViewSet)
 rtr.register('students', StudentViewSet)
 rtr.register('guests', GuestViewSet)
 rtr.register('registrars', RegistrarViewSet)
-rtr.register('assigned/courses', ACviewSet)
+rtr.register('assigned_courses', ACviewSet)
 
 urlpatterns = [
     path('', include(rtr.urls)),

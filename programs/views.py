@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAdminUser
 
 from .permissions import IsRegistrarOrReadOnly
 from .models import *
@@ -13,6 +14,9 @@ class BatchViewSet(ModelViewSet):
     filter_backends = [SearchFilter]
     search_fields = ['batchName']
     permission_classes = [IsRegistrarOrReadOnly]
+
+    def get_view_name(self):
+        return "Batches List"
 
 
 
@@ -51,10 +55,10 @@ class CIBViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['department_id', 'batch_id', 'program_id']
     search_fields = ['course__courseName']
-    permission_classes = [IsRegistrarOrReadOnly]
+    permission_classes = [IsAdminUser, IsRegistrarOrReadOnly]
 
-    class Meta:
-        verbose_name = "Courses in Batch"
+    def get_view_name(self):
+        return "Courses Enrolled to Batches List"
 
 
 # Lesson view handler
@@ -64,3 +68,4 @@ class LessonViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields =  ['course_id']
     search_fields = ['lessonName', 'lessonDescription']
+    permission_classes = [IsAdminUser, IsRegistrarOrReadOnly]
