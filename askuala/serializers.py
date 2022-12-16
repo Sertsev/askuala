@@ -28,4 +28,4 @@ class UserSerializer(BaseUS):
 
 class SimpleUserSerializer(BaseUS):
     class Meta(BaseUS.Meta):
-        fields = ['id', 'email', 'first_name', 'middle_name', 'last_name']
+        fields = ['id', 'username', 'email', 'first_name', 'middle_name', 'last_name']

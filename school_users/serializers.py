@@ -48,9 +48,12 @@ class StudentSerializer(serializers.ModelSerializer):
     enrolledProgram = SimpleProgramSerializer(read_only=True)
     enrolledDepartment = SimpleDepartmentSerializer(read_only=True)
     batch = SimpleBatchSerializer(read_only=True)
+    currentYear = serializers.IntegerField(read_only=True)
+    currentSemester = serializers.IntegerField(read_only=True)
+    enrollment_type = serializers.CharField(read_only=True)
     class Meta:
         model = Student
-        fields = ['studentId',  'user', 'documentLocation', 'birthdate', 
+        fields = ['studentId',  'user', 'birthdate', 
                     'citizenship', 'currentCountry', 'city', 'address',
                     'batch', 'currentYear', 'currentSemester', 'enrolledProgram', 'enrolledDepartment',
                     'educationLevel', 'educationDepartment', 'enrollment_type',
@@ -62,6 +65,8 @@ class SimpleStudentSerializer(serializers.ModelSerializer):
     enrolledProgram = SimpleProgramSerializer(read_only=True)
     enrolledDepartment = SimpleDepartmentSerializer(read_only=True)
     batch = SimpleBatchSerializer(read_only=True)
+    currentYear = serializers.IntegerField(read_only=True)
+    currentSemester = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Student
@@ -78,6 +83,18 @@ class GuestSerializer(serializers.ModelSerializer):
                     'currentCountry', 'city', 'address', 'educationLevel',
                     'educationDepartment', 'documentLocation', 
                     'createdAt', 'lastUpdate']
+
+    def save(self, **kwargs):
+        return super().save(**kwargs)
+
+    def create(self, validated_data):
+        user_d = User(**validated_data)
+        path = str(BASE_DIR) + '\\media\\users\\' + user_d.username + '\\'
+        if os.path.exists(str(BASE_DIR) + '\\media'):
+            if not os.path.exists(path):
+                os.makedirs(path)
+                print("User Directory '% s' created." % path)
+        return super().create(validated_data)
 
 
 class ACserializer(serializers.ModelSerializer):

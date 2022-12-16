@@ -1,12 +1,14 @@
-from datetime import datetime
+from django.conf import settings
+from datetime import datetime, date
 from django.db import models
+from askuala.settings import AUTH_USER_MODEL
 
 class Batch(models.Model):
     batchId = models.AutoField(primary_key=True)
     batchName = models.CharField(max_length=63, verbose_name="Batch Name")
     batchProgram = models.CharField(max_length=23, choices=[('Master', 'Master'), ('Bachelor', 'Bachelor')], verbose_name="Batch Program")
     Years = [(r,r) for r in range(2020, datetime.now().year + 1)]
-    batchEntryYear = models.PositiveSmallIntegerField(choices=Years, verbose_name="Entry Year")
+    batchEntryYear = models.PositiveSmallIntegerField(choices=Years, default=date.today().year, verbose_name="Entry Year")
     batchGraduationYear = models.DateField(verbose_name="Graduation Year")
     createdAt = models.DateTimeField(auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
     lastUpdate = models.DateTimeField(
@@ -101,11 +103,37 @@ class Courses_in_Batch(models.Model):
 
 
 class Lesson(models.Model):
-    lessonName = models.CharField(max_length=255, verbose_name="Lesson Title")
+    lessonTitle = models.CharField(max_length=255, verbose_name="Lesson Title")
     lessonDescription = models.TextField(
         null=True, verbose_name="Description", blank=True)
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    lecturer = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.PROTECT) 
     resources = models.CharField(max_length=127, null=True, blank=True)
+    embedVideo = models.CharField(max_length=127, null=True, blank=True)
+    createdAt = models.DateTimeField(
+        auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
+    lastUpdate = models.DateTimeField(
+        auto_now=True, verbose_name="Last Update", blank=True)
+
+
+# handling enrollment applications
+class StudentApplications(models.Model):
+    applicationId = models.AutoField(primary_key=True)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
+    guest = models.OneToOneField(
+        settings.GUEST_USER_MODEL, on_delete=models.CASCADE, unique=True)
+    program = models.ForeignKey(Program, on_delete=models.PROTECT)
+    department = models.ForeignKey(
+        Department, on_delete=models.PROTECT)
+    batch = models.ForeignKey(Batch, on_delete=models.PROTECT)
+    enrollments = [
+        ("Regular", "Regular"),
+        ("Online", "Online")
+    ]
+    enrollment_type = models.CharField(
+        max_length=23, choices=enrollments, default="Regular", verbose_name="Enrollment")
+    accepted = models.BooleanField(default=False)
     createdAt = models.DateTimeField(
         auto_now_add=True, verbose_name="Creation TimeStamp", blank=True)
     lastUpdate = models.DateTimeField(

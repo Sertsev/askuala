@@ -3,11 +3,11 @@ from django.db.models.aggregates import Count
 from django.urls import reverse
 from django.utils.html import format_html, urlencode
 
-from .models import Batch, Course, Courses_in_Batch, Department, Program
+from .models import Batch, Course, Courses_in_Batch, Department, Program, StudentApplications
 
 # Register your models here.
 @admin.register(Batch)
-class BatchAdmin(admin.ModelAdmin):
+class BatchAdmin(admin.ModelAdmin): 
     list_display = ['__str__', 'Number_of_students', 'batchEntryYear', 'batchGraduationYear']
     list_editable = ['batchGraduationYear'] 
     list_per_page = 10
@@ -162,3 +162,11 @@ class CBAdmin(admin.ModelAdmin):
 
     def batch_name(self, Courses_in_Batch):
         return Courses_in_Batch.batch.batchName
+
+
+@admin.register(StudentApplications)
+class SAAdmin(admin.ModelAdmin):
+    list_display = ['user', 'guest', 'batch', 'department', 'program', 'enrollment_type', 'accepted']
+    list_editable = ['accepted']
+    list_per_page = 10
+    list_filter = ['program', 'department', 'batch']

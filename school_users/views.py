@@ -7,8 +7,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 # from rest_framework.authentication.
 
-from programs.models import Courses_in_Batch
-from programs.serializers import SimpleCiBSerializer
+from programs.models import Courses_in_Batch, Lesson
+from programs.serializers import SimpleCiBSerializer, LessonSerializer, LessonCreateSerializer 
 from .permissions import *
 from .models import *
 from .serializers import *
@@ -19,10 +19,6 @@ from .serializers import *
         anybody with an id or 's url can get results from the 
         following classes
 """
-
-
-# Users application api handler
-# class UserViewset()
 
 
 #  Registrar users api view handler
@@ -74,14 +70,47 @@ class LecturerViewSet(ModelViewSet):
             lecturerSerialized.save()
             return Response(lecturerSerialized.data, status=status.HTTP_200_OK)
 
-    @action(detail=False, permission_classes=[IsLecturer], filter_backends=[])
-    def my_courses(self, request):
-        lecturer = get_object_or_404(Lecturer, user_id=request.user.id)
+
+class LecturerCourseViewSet(ModelViewSet):
+    queryset = AssignCourses.objects.all()
+    serializer_class = AClecturerSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    search_fields = ['course__courseName']
+    filterset_fields=["department"]
+    ordering_fields = ['course']
+    permission_classes=[IsLecturer] 
+
+    def get_queryset(self):
+        lecturer = get_object_or_404(Lecturer, user_id=self.request.user.id)
         serialized = SimpleLecturerSerializer(lecturer)
-        courses = get_list_or_404(AssignCourses, lecturer_id=serialized.data['lecturerId'])
-        serialized = AClecturerSerializer(courses, many=True)
-        print(serialized.data)
-        return Response(serialized.data, status=status.HTTP_200_OK)
+        queryset = AssignCourses.objects.filter(lecturer_id=serialized.data['lecturerId']).all()
+        return queryset
+
+    def _allowed_methods(self):
+        return permissions.SAFE_METHODS
+
+
+class LecturerLessonsViewSet(ModelViewSet):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonCreateSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['course']
+    search_fields = ['lessonName']
+    ordering_fields = ['lessonName']
+    permission_classes = [IsLecturer]
+
+    def get_queryset(self):
+        return Lesson.objects.filter(lecturer_id=self.request.user.id).all()
+
+    def create(self, request, *args, **kwargs):
+        if request.data['lecturer'] == request.user.id:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response('Please select proper user')
 
 
 #  Student users api view handler
@@ -90,10 +119,35 @@ class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['batch_id', 'enrolledProgram_id']
-    search_fields = ['firstName', 'middleName', 'lastName']
-    ordering_fields = ['firstName', 'lastName', 'lastUpdate']
+    search_fields = ['user__first_name', 'user__middle_name', 'user__last_name']
+    ordering_fields = ['user__first_name', 'user__last_name', 'lastUpdate']
     permission_classes = [IsRegistrar]
 
+    # defining the queryset for each user_type
+    def get_queryset(self):
+        if self.request.user.user_type == 'registrar':
+            return super().get_queryset()
+        elif self.request.user.user_type == 'student':
+            student = get_object_or_404(Student, user_id=self.request.user.id)
+            serialized = SimpleStudentSerializer(student)
+            return Student.objects.filter(batch_id=serialized.data['batch']['batchId'],
+                                        enrolledDepartment_id=serialized.data['enrolledDepartment']['departmentId']).all()
+    
+    # defining the http methods for each user_type
+    def _allowed_methods(self):
+        if self.request.user.user_type == 'student':
+            self.filter_backends = [SearchFilter, OrderingFilter]
+            return permissions.SAFE_METHODS
+        elif self.request.user.user_type == 'registrar':
+            return permissions.SAFE_METHODS + ('POST', 'PUT')
+
+    # defining the permissions for each user_type
+    def get_permissions(self):
+        if self.request.user.user_type == 'student':
+            return (IsStudent(),)
+        return super().get_permissions()
+
+    # my profile page for the user
     @action(detail=False, methods=['GET', 'PUT'], permission_classes = [IsStudent], filter_backends=[])
     def my_profile(self, request):
         (student, created) = Student.objects.select_related('user').get_or_create(
@@ -108,7 +162,10 @@ class StudentViewSet(ModelViewSet):
             studentSerialized.save()
             return Response(studentSerialized.data, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['GET'], permission_classes=[IsStudent], filter_backends=[])
+    @action(detail=False, 
+            methods=['GET'], 
+            permission_classes=[IsStudent], 
+            filter_backends=[])
     def my_courses(self, request):
         student = get_object_or_404(Student, user_id=request.user.id)
         serialized = SimpleStudentSerializer(student)
@@ -117,7 +174,6 @@ class StudentViewSet(ModelViewSet):
             department_id=serialized.data['enrolledDepartment']['departmentId'],
             program_id=serialized.data['enrolledProgram']['programId'])
         serialized = SimpleCiBSerializer(courses, many=True)
-        print(serialized.data)
         return Response(serialized.data, status=status.HTTP_200_OK)
 
 
@@ -131,7 +187,10 @@ class GuestViewSet(ModelViewSet):
     ordering_fields = ['firstName', 'lastName', 'lastUpdate']
     permission_classes = [IsRegistrar]
 
-    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsGuest], filter_backends=[])
+    @action(detail=False, 
+            methods=['GET', 'PUT'], 
+            permission_classes=[IsGuest], 
+            filter_backends=[])
     def my_profile(self, request):
         (guest, created) = Guest.objects.select_related('user').get_or_create(user_id=request.user.id)
         if request.method == 'GET':

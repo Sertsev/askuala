@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAdminUser
 
 from .permissions import IsRegistrarOrReadOnly
@@ -24,7 +24,8 @@ class BatchViewSet(ModelViewSet):
 class ProgramViewSet(ModelViewSet):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
+    ordering_fields = ['programName']
     search_fields = ['programName', 'programDescription']
     permission_classes = [IsRegistrarOrReadOnly]
 
@@ -33,7 +34,8 @@ class ProgramViewSet(ModelViewSet):
 class DepartmentViewSet(ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
+    ordering_fields = ['departmentName']
     search_fields = ['departmentName', 'departmentDescription', 'departmentHead']
     permission_classes = [IsRegistrarOrReadOnly]
 
@@ -42,8 +44,9 @@ class DepartmentViewSet(ModelViewSet):
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields =  ['department_id']
+    ordering_fields = ['courseName']
     search_fields = ['courseName', 'courseDescription']
     permission_classes = [IsRegistrarOrReadOnly]
 
